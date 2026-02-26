@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>ASIC Mining & Fermes de minage – Cryptomanie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <div class="logo">CRYPTO<span>MANIE</span></div>
+    <div class="nav-main">
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="satoshi.html">Satoshi & Bitcoin</a></li>
+        <li><a href="mining.html" class="active">ASIC & Minage</a></li>
+        <li><a href="guide.html">Guide & Ressources</a></li>
+      </ul>
+      <div class="nav-extra">
+        <div class="nav-lang">FR | <a href="mining-en.html">EN</a></div>
+        <button id="theme-toggle" class="theme-toggle" type="button">
+          ☀️ Mode clair
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <h1 class="section-title">ASIC Mining & fermes de minage</h1>
+  <p class="section-subtitle">
+    Le minage est le moteur de la sécurité de Bitcoin. Aujourd’hui, il est
+    dominé par des machines spécialisées – les ASIC – regroupées dans des
+    fermes de minage quasi-industrielles.
+  </p>
+
+  <section class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="img/asic-miner.jpg" alt="Machine ASIC spécialisée pour le minage de Bitcoin" />
+      </div>
+      <h2>Qu’est-ce qu’un ASIC&nbsp;?</h2>
+      <p>
+        ASIC signifie <em>Application-Specific Integrated Circuit</em> :
+        circuit intégré conçu pour une seule tâche. Pour Bitcoin, cette tâche
+        est de calculer des hashes SHA-256 le plus vite possible.
+      </p>
+      <ul>
+        <li>Beaucoup plus rapides qu’un CPU ou un GPU</li>
+        <li>Optimisés pour un seul algorithme de minage</li>
+        <li>Meilleur rapport performance / consommation électrique</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">SHA-256</span>
+        <span class="tag">Hashrate</span>
+        <span class="tag">Efficacité</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-image">
+        <img src="img/bitcoin-blockchain.jpg" alt="Évolution du minage Bitcoin CPU GPU ASIC" />
+      </div>
+      <h2>De l’ordinateur perso à l’industrie lourde</h2>
+      <p>
+        Le minage a commencé sur des PC classiques, puis est passé sur GPU,
+        avant de devenir quasi exclusivement dominé par les ASIC.
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Période</th>
+              <th>Matériel dominant</th>
+              <th>Caractéristiques</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2009 – 2010</td>
+              <td>CPU</td>
+              <td>Minage possible sur un simple ordinateur de bureau</td>
+            </tr>
+            <tr>
+              <td>2010 – 2012</td>
+              <td>GPU</td>
+              <td>Cartes graphiques, hashrate multiplié par 10 à 100</td>
+            </tr>
+            <tr>
+              <td>2013 → aujourd’hui</td>
+              <td>ASIC</td>
+              <td>Machines dédiées, minage devenu industriel et très compétitif</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <h2 class="section-title">Fermes de minage : usines à hashrate</h2>
+    <p class="section-subtitle">
+      Une ferme de minage, c’est un hangar – ou plusieurs – rempli de milliers
+      de machines ASIC qui tournent en continu pour sécuriser le réseau et
+      générer des bitcoins.
+    </p>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-image">
+          <img src="img/mining-farm.jpg" alt="Ferme de minage Bitcoin avec rangées de machines ASIC" />
+        </div>
+        <h3>🔌 Électricité</h3>
+        <p>
+          Le coût de l’énergie est le nerf de la guerre. Les fermes de minage
+          s’installent là où l’électricité est abondante et bon marché :
+          hydroélectricité, surplus énergétiques, régions froides.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-image">
+          <img src="img/mining-cooling.jfif" alt="Système de refroidissement pour ferme de minage" />
+        </div>
+        <h3>🌬️ Refroidissement</h3>
+        <p>
+          Des milliers d’ASIC produisent énormément de chaleur. Ventilation,
+          climatisation ou immersion dans des fluides spéciaux : tout est
+          centré sur le maintien d’une température stable.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-image">
+          <img src="img/mining-monitoring.jfif" alt="Écrans de surveillance d'une ferme de minage" />
+        </div>
+        <h3>📡 Surveillance & maintenance</h3>
+        <p>
+          Pannes, surchauffes, variations de hashrate : tout est monitoré en
+          temps réel. Objectif : maximiser le temps de fonctionnement de
+          chaque machine.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h2>Minage, sécurité du réseau & récompenses</h2>
+      <p>
+        Les mineurs participent à la sécurité de Bitcoin en validant des blocs
+        de transactions. En échange, ils reçoivent :
+      </p>
+      <ul>
+        <li>La récompense de bloc (nouveaux bitcoins créés)</li>
+        <li>Les frais de transaction payés par les utilisateurs</li>
+      </ul>
+      <p style="margin-top:0.6rem;">
+        Tous les ~4 ans, le <strong>halving</strong> divise cette récompense
+        par deux. Résultat : pression à l’optimisation, à la baisse des
+        coûts énergétiques… et parfois à la relocalisation des fermes.
+      </p>
+      <div class="tags">
+        <span class="tag">Proof-of-Work</span>
+        <span class="tag">Halving</span>
+        <span class="tag">Sécurité réseau</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Fermes de minage & énergie : débat réel, pas slogan</h2>
+    <p class="section-subtitle">
+      On accuse souvent le minage de “brûler” de l’énergie. La réalité est plus
+      nuancée.
+    </p>
+    <div class="card">
+      <p>
+        Beaucoup de fermes se connectent à des sources d’énergie sous-utilisées
+        (surplus hydroélectrique, gaz torché, excédents de réseau). L’enjeu
+        n’est pas seulement la quantité d’énergie consommée, mais
+        <strong>sa source</strong> et <strong>son impact réel</strong>.
+      </p>
+      <ul style="margin-top:0.7rem;">
+        <li>Utilisation de surplus qui seraient perdus sans le minage</li>
+        <li>Incitation à développer des infrastructures renouvelables</li>
+        <li>Débat permanent entre gaspillage et optimisation énergétique</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2025 – Cryptomanie – ASIC Mining & fermes de minage.
+  <span class="footer-author">
+    Hocine KORICHI – ingénieur physicien et informaticien
+  </span>
+</footer>
+</body>
+</html>

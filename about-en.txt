@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About – Cryptomania & Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <div class="logo">CRYPTO<span>MANIA</span></div>
+    <div class="nav-main">
+      <ul class="nav-links">
+        <li><a href="index-en.html">Home</a></li>
+        <li><a href="satoshi-en.html">Satoshi & Bitcoin</a></li>
+        <li><a href="mining-en.html">ASIC & Mining</a></li>
+        <li><a href="guide-en.html">Guide & Resources</a></li>
+        <li><a href="about-en.html" class="active">About</a></li>
+      </ul>
+      <div class="nav-extra">
+        <div class="nav-lang">EN | <a href="about.html">FR</a></div>
+        <button id="theme-toggle" class="theme-toggle" type="button">
+          ☀️ Light mode
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <h1 class="section-title">About this site and its author</h1>
+  <p class="section-subtitle">
+    An independent educational project to explain cryptocurrency, away from
+    hype and “get rich quick” narratives.
+  </p>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Why this site?</h2>
+      <p>
+        Most crypto content swings between aggressive marketing, heavy jargon
+        and unrealistic profit promises. This site takes the opposite path:
+      </p>
+      <ul>
+        <li>explain the technology clearly and step by step;</li>
+        <li>highlight the real technical and financial risks;</li>
+        <li>give enough context so you can think for yourself.</li>
+      </ul>
+      <p style="margin-top:0.7rem;">
+        Bitcoin, Satoshi Nakamoto, ASIC mining, mining farms, security,
+        Bitcoin’s monetary design: the goal is to provide a solid foundation,
+        whether you are just curious or technically inclined.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>Who is behind it?</h2>
+      <p>
+        This site is created by
+        <strong>Hocine KORICHI, engineer in physics and computer science</strong>.
+      </p>
+      <p style="margin-top:0.5rem;">
+        Passionate about science, artificial intelligence, complex systems and
+        emerging technologies, I see Bitcoin and the blockchain as an open-air
+        laboratory:
+      </p>
+      <ul>
+        <li>a new form of digital money;</li>
+        <li>a large-scale decentralization experiment;</li>
+        <li>a playground for energy, security and economics.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section>
+    <h2 class="section-title">Position: neither guru nor financial advisor</h2>
+    <div class="card">
+      <p>
+        This site is not here to provide investment advice. It does not sell
+        “magic trading courses” or miracle tokens.
+      </p>
+      <ul style="margin-top:0.7rem;">
+        <li>
+          <strong>No promise of returns</strong>: only understanding.
+        </li>
+        <li>
+          <strong>No hidden ads</strong> for any project or platform.
+        </li>
+        <li>
+          <strong>One simple rule</strong>: understand mechanisms before making
+          decisions.
+        </li>
+      </ul>
+      <p style="margin-top:0.7rem;">
+        If this content helps you better understand crypto and keep a cool
+        head, the goal is achieved.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Contact</h2>
+    <div class="card">
+      <p>
+        You can adapt this section with your own contact details (email,
+        personal website, social networks), or keep it anonymous if you prefer.
+      </p>
+      <p style="margin-top:0.5rem; font-size:0.9rem; color:#9ca3af;">
+        (For security, avoid publishing highly sensitive personal data if
+        the site is public.)
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2025 – Cryptomania – Educational site about Bitcoin, Satoshi Nakamoto and mining.
+  <span class="footer-author">
+    Hocine KORICHI – engineer in physics and computer science
+  </span>
+</footer>
+</body>
+</html>

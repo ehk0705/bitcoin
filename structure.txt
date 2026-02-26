@@ -1,0 +1,23 @@
+📁 Structure proposée
+cryptomanie-site/
+│
+├─ index.html              → Accueil FR
+├─ satoshi.html            → Satoshi & Bitcoin FR
+├─ mining.html             → ASIC & Minage FR
+├─ guide.html              → Guide & Ressources FR
+│
+├─ index-en.html           → Home EN
+├─ satoshi-en.html         → Satoshi & Bitcoin EN
+├─ mining-en.html          → ASIC & Mining EN
+├─ guide-en.html           → Guide & Resources EN
+│
+├─ style.css               → Styles globaux + clair/sombre
+├─ script.js               → Toggle thème (clair/sombre)
+│
+└─ img/                    → Tes images
+    ├─ hero-crypto.jpg
+    ├─ satoshi.jpg
+    ├─ bitcoin-blockchain.jpg
+    ├─ asic-miner.jpg
+    ├─ mining-farm.jpg
+    └─ security-wallet.jpg
