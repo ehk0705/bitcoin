@@ -184,6 +184,56 @@
       height: 390px;
     }
 
+    .chart-column {
+      display: grid;
+      gap: 20px;
+    }
+
+    .market-insight {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      align-items: center;
+      min-height: 210px;
+    }
+
+    .market-insight img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--bordure);
+    }
+
+    .market-insight-text {
+      display: grid;
+      gap: 10px;
+    }
+
+    .market-insight-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .market-points {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .market-point {
+      background: #080808;
+      border: 1px solid var(--bordure);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .market-point strong {
+      color: var(--jaune);
+    }
+
     canvas {
       width: 100% !important;
       height: 100% !important;
@@ -343,7 +393,8 @@
       .indicators,
       .settings,
       .extra-grid,
-      .resources-grid {
+      .resources-grid,
+      .market-insight {
         grid-template-columns: 1fr;
       }
 
@@ -357,6 +408,10 @@
 
       .chart-box {
         height: 290px;
+      }
+
+      .market-insight img {
+        height: 190px;
       }
 
       nav {
@@ -485,8 +540,40 @@
       </p>
     </div>
 
-    <div class="card chart-box">
-      <canvas id="btcChart"></canvas>
+    <div class="chart-column">
+
+      <div class="card chart-box">
+        <canvas id="btcChart"></canvas>
+      </div>
+
+      <div class="card market-insight">
+        <img src="img/crypto-chart.jfif" alt="Analyse graphique du Bitcoin">
+
+        <div class="market-insight-text">
+          <h2>Lecture rapide du marché</h2>
+
+          <p>
+            Ce graphique permet d’observer la direction immédiate du Bitcoin.
+            Il ne faut pas regarder seulement le prix : il faut aussi comparer
+            la tendance, le volume, les moyennes mobiles et le niveau de confiance.
+          </p>
+
+          <div class="market-points">
+            <div class="market-point">
+              <strong>Tendance :</strong> vérifier si le prix reste au-dessus ou au-dessous des moyennes mobiles.
+            </div>
+
+            <div class="market-point">
+              <strong>Volume :</strong> un mouvement sans volume peut être fragile.
+            </div>
+
+            <div class="market-point">
+              <strong>Prudence :</strong> un signal automatique doit toujours être confirmé avant toute décision.
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1471,5 +1558,6 @@
   Bitcoin Monitor — Page éducative et indicative seulement.<br>
   Page développée par Hocine Korichi. Avril 2026. Tous droits réservés.
 </footer>
+
 </body>
 </html>
