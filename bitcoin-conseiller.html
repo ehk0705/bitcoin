@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Surveillance Bitcoin en temps réel</title>
+  <title>Bitcoin Monitor temps réel</title>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
-      --bg: #050505;
-      --card: #111;
-      --card2: #181818;
-      --text: #f5f5f5;
+      --fond: #050505;
+      --carte: #111;
+      --carte2: #181818;
+      --texte: #f5f5f5;
       --muted: #b8b8b8;
-      --green: #00c853;
-      --red: #ff1744;
-      --yellow: #ffd600;
-      --blue: #00b0ff;
-      --border: #2b2b2b;
+      --vert: #00c853;
+      --rouge: #ff1744;
+      --jaune: #ffd600;
+      --bleu: #00b0ff;
+      --bordure: #2b2b2b;
     }
 
     * {
@@ -30,17 +30,17 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: var(--fond);
+      color: var(--texte);
       line-height: 1.6;
     }
 
     header {
       background:
-        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.88)),
+        linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.9)),
         url("img/bitcoin-bg.jfif") center/cover no-repeat;
       padding: 20px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--bordure);
     }
 
     .topbar {
@@ -56,26 +56,26 @@
     .logo {
       font-size: 1.4rem;
       font-weight: bold;
-      color: var(--yellow);
+      color: var(--jaune);
     }
 
     nav {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     nav a {
-      color: var(--text);
+      color: var(--texte);
       text-decoration: none;
       padding: 8px 12px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bordure);
       border-radius: 8px;
       background: rgba(255,255,255,0.05);
     }
 
     nav a:hover {
-      background: var(--yellow);
+      background: var(--jaune);
       color: #000;
     }
 
@@ -89,9 +89,9 @@
     }
 
     .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 15px;
-      color: var(--yellow);
+      color: var(--jaune);
+      font-size: 2.1rem;
+      margin-bottom: 12px;
     }
 
     .hero p {
@@ -101,10 +101,10 @@
 
     .hero img {
       width: 100%;
-      max-height: 260px;
+      max-height: 250px;
       object-fit: cover;
       border-radius: 18px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bordure);
     }
 
     main {
@@ -121,17 +121,17 @@
     }
 
     .card {
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--carte), var(--carte2));
+      border: 1px solid var(--bordure);
       border-radius: 18px;
       padding: 20px;
-      box-shadow: 0 0 22px rgba(0,0,0,0.4);
       margin-bottom: 25px;
+      box-shadow: 0 0 22px rgba(0,0,0,0.4);
     }
 
     .price-box {
       display: grid;
-      gap: 15px;
+      gap: 14px;
     }
 
     .label {
@@ -140,9 +140,9 @@
     }
 
     .price {
+      color: var(--bleu);
       font-size: 2rem;
       font-weight: bold;
-      color: var(--blue);
     }
 
     .variation {
@@ -156,23 +156,23 @@
       text-align: center;
       font-size: 1.6rem;
       font-weight: bold;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bordure);
       background: #080808;
     }
 
-    .signal.buy {
-      color: var(--green);
-      border-color: var(--green);
+    .buy {
+      color: var(--vert);
+      border-color: var(--vert);
     }
 
-    .signal.sell {
-      color: var(--red);
-      border-color: var(--red);
+    .sell {
+      color: var(--rouge);
+      border-color: var(--rouge);
     }
 
-    .signal.wait {
-      color: var(--yellow);
-      border-color: var(--yellow);
+    .wait {
+      color: var(--jaune);
+      border-color: var(--jaune);
     }
 
     .small {
@@ -181,7 +181,7 @@
     }
 
     .chart-box {
-      height: 380px;
+      height: 390px;
     }
 
     canvas {
@@ -190,56 +190,53 @@
     }
 
     h2 {
-      color: var(--yellow);
+      color: var(--jaune);
       margin-bottom: 12px;
-      font-size: 1.5rem;
+      font-size: 1.45rem;
     }
 
     h3 {
-      color: var(--blue);
-      margin-bottom: 8px;
-      font-size: 1.1rem;
+      color: var(--bleu);
+      margin-bottom: 6px;
+      font-size: 1.05rem;
     }
 
-    .indicators {
+    .indicators,
+    .settings,
+    .extra-grid,
+    .resources-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
     }
 
-    .indicator {
+    .indicator,
+    .extra-box,
+    .resource-card {
       background: #0b0b0b;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bordure);
       border-radius: 14px;
       padding: 15px;
     }
 
-    .indicator-value {
-      font-size: 1.3rem;
+    .resource-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--bordure);
+      margin-bottom: 12px;
+    }
+
+    .indicator-value,
+    .extra-value {
+      font-size: 1.1rem;
       font-weight: bold;
       margin-top: 5px;
     }
 
-    .green {
-      color: var(--green);
-    }
-
-    .red {
-      color: var(--red);
-    }
-
-    .yellow {
-      color: var(--yellow);
-    }
-
-    .blue {
-      color: var(--blue);
-    }
-
     .settings {
-      display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
     }
 
     .settings label {
@@ -253,10 +250,25 @@
       width: 100%;
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bordure);
       background: #080808;
-      color: var(--text);
+      color: var(--texte);
       font-size: 1rem;
+    }
+
+    button {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--jaune);
+      background: #080808;
+      color: var(--jaune);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--jaune);
+      color: #000;
     }
 
     ul {
@@ -268,20 +280,59 @@
     }
 
     a {
-      color: var(--blue);
+      color: var(--bleu);
       word-break: break-word;
     }
 
     .warning {
-      border-left: 5px solid var(--yellow);
+      border-left: 5px solid var(--jaune);
       background: linear-gradient(180deg, #151515, #101010);
+    }
+
+    .vert { color: var(--vert); }
+    .rouge { color: var(--rouge); }
+    .jaune { color: var(--jaune); }
+    .bleu { color: var(--bleu); }
+
+    .etat-haussier {
+      box-shadow: 0 0 25px rgba(0, 200, 83, 0.25);
+      border-color: var(--vert);
+    }
+
+    .etat-baissier {
+      box-shadow: 0 0 25px rgba(255, 23, 68, 0.25);
+      border-color: var(--rouge);
+    }
+
+    .etat-neutre {
+      box-shadow: 0 0 25px rgba(255, 214, 0, 0.18);
+      border-color: var(--jaune);
+    }
+
+    .journal {
+      max-height: 220px;
+      overflow-y: auto;
+      background: #080808;
+      border: 1px solid var(--bordure);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .journal-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #222;
+      font-size: 0.95rem;
+    }
+
+    .journal-item:last-child {
+      border-bottom: none;
     }
 
     footer {
       text-align: center;
       color: var(--muted);
       padding: 25px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--bordure);
       margin-top: 30px;
       background: #080808;
     }
@@ -290,7 +341,9 @@
       .hero,
       .dashboard,
       .indicators,
-      .settings {
+      .settings,
+      .extra-grid,
+      .resources-grid {
         grid-template-columns: 1fr;
       }
 
@@ -303,7 +356,7 @@
       }
 
       .chart-box {
-        height: 280px;
+        height: 290px;
       }
 
       nav {
@@ -334,7 +387,7 @@
       }
 
       .chart-box {
-        height: 240px;
+        height: 245px;
       }
     }
   </style>
@@ -352,6 +405,9 @@
       <a href="#indicateurs">Indicateurs</a>
       <a href="#parametres">Paramètres</a>
       <a href="#risque">Risque</a>
+      <a href="#avance">Avancé</a>
+      <a href="#ressources">Ressources</a>
+      <a href="#journal">Journal</a>
       <a href="#api">API</a>
     </nav>
   </div>
@@ -361,8 +417,8 @@
       <h1>Surveillance du Bitcoin en temps réel</h1>
       <p>
         Cette page affiche le cours du Bitcoin, un graphique dynamique,
-        des indicateurs techniques et un signal automatique.
-        Le résultat reste indicatif et ne constitue pas un conseil financier.
+        des indicateurs techniques, un signal automatique, un niveau de confiance
+        et un journal des signaux.
       </p>
     </div>
 
@@ -373,7 +429,7 @@
 <main>
 
   <section id="cours" class="dashboard">
-    <div class="card price-box">
+    <div id="cartePrincipale" class="card price-box etat-neutre">
       <div>
         <div class="label">Cours BTC / USDT</div>
         <div id="prix" class="price">Chargement...</div>
@@ -385,8 +441,18 @@
       </div>
 
       <div>
-        <div class="label">Volume dernière minute</div>
-        <div id="volume" class="blue">---</div>
+        <div class="label">Volume dernière bougie</div>
+        <div id="volume" class="bleu">---</div>
+      </div>
+
+      <div>
+        <div class="label">Prix maximum depuis l’ouverture</div>
+        <div id="prixMax" class="vert">---</div>
+      </div>
+
+      <div>
+        <div class="label">Prix minimum depuis l’ouverture</div>
+        <div id="prixMin" class="rouge">---</div>
       </div>
 
       <div>
@@ -394,12 +460,28 @@
         <div id="heure" class="small">---</div>
       </div>
 
+      <div>
+        <div class="label">Prochain rafraîchissement</div>
+        <div id="compteur" class="jaune">20 secondes</div>
+      </div>
+
+      <button id="pauseBtn" type="button">Mettre en pause</button>
+
       <div id="signalBox" class="signal wait">
         ATTENDRE
       </div>
 
+      <div>
+        <div class="label">Confiance du signal</div>
+        <div id="confianceSignal" class="jaune">---</div>
+      </div>
+
       <p id="raisonSignal" class="small">
         Analyse en cours...
+      </p>
+
+      <p id="recommandationPrudente" class="small jaune">
+        Marché en observation.
       </p>
     </div>
 
@@ -415,19 +497,19 @@
       <div class="indicator">
         <h3>RSI 14</h3>
         <div id="rsiValue" class="indicator-value">---</div>
-        <p class="small">Surachat au-dessus du seuil haut, survente sous le seuil bas.</p>
+        <p class="small">Surachat ou survente.</p>
       </div>
 
       <div class="indicator">
         <h3>MACD</h3>
         <div id="macdValue" class="indicator-value">---</div>
-        <p class="small">Signal haussier si MACD supérieur à sa ligne de signal.</p>
+        <p class="small">Lecture de la dynamique.</p>
       </div>
 
       <div class="indicator">
         <h3>Moyennes mobiles</h3>
         <div id="maValue" class="indicator-value">---</div>
-        <p class="small">MA20, MA50 et MA200 pour lire la tendance.</p>
+        <p class="small">MA20, MA50 et MA200.</p>
       </div>
 
       <div class="indicator">
@@ -443,12 +525,12 @@
 
     <div class="settings">
       <label>
-        RSI bas, zone d’achat possible
+        RSI bas
         <input id="rsiBas" type="number" value="30" min="1" max="100">
       </label>
 
       <label>
-        RSI haut, zone de vente possible
+        RSI haut
         <input id="rsiHaut" type="number" value="70" min="1" max="100">
       </label>
 
@@ -477,11 +559,6 @@
   <section id="risque" class="card warning">
     <h2>Gestion du risque</h2>
 
-    <p>
-      La gestion du risque indique combien il serait prudent de ne pas dépasser
-      selon le capital, le risque maximal accepté et le stop-loss choisi.
-    </p>
-
     <ul>
       <li><strong>Capital :</strong> <span id="capitalAffiche">---</span></li>
       <li><strong>Risque maximal :</strong> <span id="risqueAffiche">---</span></li>
@@ -490,9 +567,121 @@
     </ul>
 
     <p class="small">
-      Ce calcul est indicatif. Il ne garantit aucune protection réelle contre les pertes,
-      surtout dans un marché très volatil.
+      Ce calcul est indicatif. Il ne protège pas réellement contre les pertes.
     </p>
+  </section>
+
+  <section id="avance" class="card">
+    <h2>Options avancées</h2>
+
+    <div class="settings">
+      <label>
+        Alerte si le prix dépasse
+        <input id="alerteHaute" type="number" placeholder="Exemple : 100000">
+      </label>
+
+      <label>
+        Alerte si le prix descend sous
+        <input id="alerteBasse" type="number" placeholder="Exemple : 95000">
+      </label>
+
+      <label>
+        Rafraîchissement en secondes
+        <input id="delaiRafraichissement" type="number" value="20" min="5" step="5">
+      </label>
+    </div>
+
+    <p id="messageAlerte" class="small jaune">
+      Aucune alerte déclenchée.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Résumé avancé</h2>
+
+    <div class="extra-grid">
+      <div class="extra-box">
+        <h3>Signal actuel</h3>
+        <div id="resumeSignal" class="extra-value jaune">ATTENDRE</div>
+      </div>
+
+      <div class="extra-box">
+        <h3>Confiance</h3>
+        <div id="resumeConfiance" class="extra-value jaune">---</div>
+      </div>
+
+      <div class="extra-box">
+        <h3>Volatilité courte</h3>
+        <div id="volatiliteCourte" class="extra-value jaune">---</div>
+      </div>
+
+      <div class="extra-box">
+        <h3>Lecture prudente</h3>
+        <div id="lecturePrudente" class="extra-value jaune">Observation</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ressources" class="card">
+    <h2>Ressources Bitcoin et cryptomonnaies</h2>
+
+    <div class="resources-grid">
+      <div class="resource-card">
+        <img src="img/crypto-chart.jfif" alt="Graphique de cryptomonnaies">
+        <h3>Into The Cryptoverse</h3>
+        <p class="small">
+          Ressource d’analyse du marché des cryptomonnaies, utile pour compléter
+          l’observation technique.
+        </p>
+        <p>
+          <a href="https://intothecryptoverse.com/" target="_blank" rel="noopener noreferrer">
+            Accéder à Into The Cryptoverse
+          </a>
+        </p>
+      </div>
+
+      <div class="resource-card">
+        <img src="img/bitcoin-bg.jfif" alt="Marché Bitcoin">
+        <h3>CoinGlass</h3>
+        <p class="small">
+          Plateforme utile pour suivre les données de marché, les liquidations,
+          les contrats à terme et d’autres indicateurs.
+        </p>
+        <p>
+          <a href="https://www.coinglass.com/" target="_blank" rel="noopener noreferrer">
+            Accéder à CoinGlass
+          </a>
+        </p>
+      </div>
+
+      <div class="resource-card">
+        <img src="img/bitcoin-wallet.jfif" alt="Portefeuille Bitcoin">
+        <h3>Suivi personnel</h3>
+        <p class="small">
+          Ces ressources ne remplacent pas une stratégie prudente. Elles servent
+          à mieux observer le marché avant toute décision.
+        </p>
+      </div>
+
+      <div class="resource-card">
+        <img src="img/crypto-chart.jfif" alt="Analyse crypto">
+        <h3>Prudence</h3>
+        <p class="small">
+          Les signaux techniques peuvent être trompeurs. Il faut toujours tenir compte
+          du risque, de la volatilité et du contexte général du marché.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="journal" class="card">
+    <h2>Journal des signaux</h2>
+
+    <div id="journalSignaux" class="journal">
+      <div class="journal-item small">
+        Aucun signal enregistré pour le moment.
+      </div>
+    </div>
   </section>
 
   <section class="card warning">
@@ -504,7 +693,7 @@
     </p>
 
     <p>
-      Le système utilise maintenant :
+      Le système utilise :
     </p>
 
     <ul>
@@ -514,7 +703,13 @@
       <li>volume ;</li>
       <li>tendance sur plusieurs périodes ;</li>
       <li>gestion du risque ;</li>
-      <li>seuils personnalisables.</li>
+      <li>seuils personnalisables ;</li>
+      <li>alerte de prix ;</li>
+      <li>pause et reprise du rafraîchissement ;</li>
+      <li>journal des signaux ;</li>
+      <li>niveau de confiance ;</li>
+      <li>ressources externes ;</li>
+      <li>rafraîchissement dynamique toutes les 20 secondes.</li>
     </ul>
   </section>
 
@@ -522,22 +717,22 @@
     <h2>Liens API utilisés</h2>
 
     <p>
-      <strong>WebSocket bougies 1 minute Binance :</strong><br>
-      <a href="wss://stream.binance.com:9443/ws/btcusdt@kline_1m">
-        wss://stream.binance.com:9443/ws/btcusdt@kline_1m
-      </a>
-    </p>
-
-    <p>
       <strong>Historique Binance :</strong><br>
-      <a href="https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250" target="_blank">
+      <a href="https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250" target="_blank" rel="noopener noreferrer">
         https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250
       </a>
     </p>
 
     <p>
+      <strong>Dernière bougie Binance :</strong><br>
+      <a href="https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1" target="_blank" rel="noopener noreferrer">
+        https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1
+      </a>
+    </p>
+
+    <p>
       <strong>Prix instantané Binance :</strong><br>
-      <a href="https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT" target="_blank">
+      <a href="https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT" target="_blank" rel="noopener noreferrer">
         https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT
       </a>
     </p>
@@ -550,12 +745,26 @@
 </footer>
 
 <script>
+  let RAFRAICHISSEMENT_MS = 20000;
+  let secondesRestantes = RAFRAICHISSEMENT_MS / 1000;
+  let pauseActive = false;
+  let intervalRafraichissement = null;
+  let intervalCompteur = null;
+  let dernierSignal = "";
+
   const prixEl = document.getElementById("prix");
   const variationEl = document.getElementById("variation");
   const volumeEl = document.getElementById("volume");
   const heureEl = document.getElementById("heure");
+  const compteurEl = document.getElementById("compteur");
   const signalBox = document.getElementById("signalBox");
   const raisonSignal = document.getElementById("raisonSignal");
+  const confianceSignal = document.getElementById("confianceSignal");
+  const recommandationPrudente = document.getElementById("recommandationPrudente");
+  const cartePrincipale = document.getElementById("cartePrincipale");
+
+  const prixMaxEl = document.getElementById("prixMax");
+  const prixMinEl = document.getElementById("prixMin");
 
   const rsiValue = document.getElementById("rsiValue");
   const macdValue = document.getElementById("macdValue");
@@ -574,10 +783,26 @@
   const perteMax = document.getElementById("perteMax");
   const positionMax = document.getElementById("positionMax");
 
+  const pauseBtn = document.getElementById("pauseBtn");
+  const alerteHauteInput = document.getElementById("alerteHaute");
+  const alerteBasseInput = document.getElementById("alerteBasse");
+  const delaiRafraichissementInput = document.getElementById("delaiRafraichissement");
+  const messageAlerte = document.getElementById("messageAlerte");
+
+  const resumeSignal = document.getElementById("resumeSignal");
+  const resumeConfiance = document.getElementById("resumeConfiance");
+  const volatiliteCourte = document.getElementById("volatiliteCourte");
+  const lecturePrudente = document.getElementById("lecturePrudente");
+  const journalSignaux = document.getElementById("journalSignaux");
+
   let prixInitial = null;
+  let prixMaxSession = null;
+  let prixMinSession = null;
+
   let labels = [];
   let closes = [];
   let volumes = [];
+  let tempsBougies = [];
 
   const MAX_POINTS = 250;
 
@@ -618,7 +843,9 @@
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: false,
+      animation: {
+        duration: 600
+      },
       plugins: {
         legend: {
           labels: {
@@ -673,8 +900,7 @@
   function serieSMA(data, periode) {
     return data.map((_, index) => {
       if (index + 1 < periode) return null;
-      const segment = data.slice(index + 1 - periode, index + 1);
-      return moyenne(segment);
+      return moyenne(data.slice(index + 1 - periode, index + 1));
     });
   }
 
@@ -704,7 +930,6 @@
 
     let gains = 0;
     let pertes = 0;
-
     const debut = data.length - periode;
 
     for (let i = debut; i < data.length; i++) {
@@ -756,10 +981,7 @@
     if (data.length < 200) {
       return {
         texte: "Historique insuffisant",
-        classe: "yellow",
-        court: "---",
-        moyen: "---",
-        long: "---"
+        classe: "jaune"
       };
     }
 
@@ -772,16 +994,30 @@
     const moyen = ma20 > ma50 ? "haussière" : "baissière";
     const long = ma50 > ma200 ? "haussière" : "baissière";
 
-    let texte = `Court : ${court} | Moyen : ${moyen} | Long : ${long}`;
-    let classe = "yellow";
+    let classe = "jaune";
 
     if (court === "haussière" && moyen === "haussière" && long === "haussière") {
-      classe = "green";
-    } else if (court === "baissière" && moyen === "baissière" && long === "baissière") {
-      classe = "red";
+      classe = "vert";
     }
 
-    return { texte, classe, court, moyen, long };
+    if (court === "baissière" && moyen === "baissière" && long === "baissière") {
+      classe = "rouge";
+    }
+
+    return {
+      texte: `Court : ${court} | Moyen : ${moyen} | Long : ${long}`,
+      classe
+    };
+  }
+
+  function calculerVolatiliteCourte() {
+    if (closes.length < 10) return null;
+
+    const segment = closes.slice(-10);
+    const max = Math.max(...segment);
+    const min = Math.min(...segment);
+
+    return ((max - min) / min) * 100;
   }
 
   function majGraphique() {
@@ -805,10 +1041,68 @@
     positionMax.textContent = position.toFixed(2) + " USDT";
   }
 
+  function appliquerTendanceVisuelle(type) {
+    cartePrincipale.classList.remove("etat-haussier", "etat-baissier", "etat-neutre");
+
+    if (type === "ACHETER") {
+      cartePrincipale.classList.add("etat-haussier");
+    } else if (type === "VENDRE") {
+      cartePrincipale.classList.add("etat-baissier");
+    } else {
+      cartePrincipale.classList.add("etat-neutre");
+    }
+  }
+
+  function ajouterJournalSignal(signal, confiance, raisons) {
+    const heure = new Date().toLocaleTimeString("fr-CA");
+
+    if (signal === dernierSignal) return;
+
+    dernierSignal = signal;
+
+    const item = document.createElement("div");
+    item.className = "journal-item";
+    item.innerHTML = `
+      <strong>${heure}</strong> — ${signal} — confiance ${confiance}%<br>
+      <span class="small">${raisons || "Aucune raison détaillée."}</span>
+    `;
+
+    if (journalSignaux.textContent.includes("Aucun signal")) {
+      journalSignaux.innerHTML = "";
+    }
+
+    journalSignaux.prepend(item);
+
+    while (journalSignaux.children.length > 15) {
+      journalSignaux.removeChild(journalSignaux.lastChild);
+    }
+  }
+
+  function verifierAlertes(prix) {
+    const alerteHaute = Number(alerteHauteInput.value);
+    const alerteBasse = Number(alerteBasseInput.value);
+
+    if (alerteHaute > 0 && prix >= alerteHaute) {
+      messageAlerte.textContent = "Alerte : le Bitcoin a dépassé " + formatPrix(alerteHaute);
+      messageAlerte.className = "small vert";
+      return;
+    }
+
+    if (alerteBasse > 0 && prix <= alerteBasse) {
+      messageAlerte.textContent = "Alerte : le Bitcoin est descendu sous " + formatPrix(alerteBasse);
+      messageAlerte.className = "small rouge";
+      return;
+    }
+
+    messageAlerte.textContent = "Aucune alerte déclenchée.";
+    messageAlerte.className = "small jaune";
+  }
+
   function majIndicateursEtSignal() {
     if (closes.length < 50) {
       afficherSignal("ATTENDRE", "wait");
       raisonSignal.textContent = "Historique insuffisant pour une analyse fiable.";
+      confianceSignal.textContent = "---";
       return;
     }
 
@@ -825,26 +1119,25 @@
     const ma50 = sma(closes, 50);
     const ma200 = sma(closes, 200);
     const tendance = determinerTendance(closes);
+    const volatilite = calculerVolatiliteCourte();
 
     const variationCourte = ((dernier - ancien) / ancien) * 100;
 
     rsiValue.textContent = rsi ? formatNombre(rsi, 2) : "---";
-    rsiValue.className = "indicator-value " + (
-      rsi < rsiBas ? "green" :
-      rsi > rsiHaut ? "red" :
-      "yellow"
-    );
+    rsiValue.className =
+      "indicator-value " +
+      (rsi < rsiBas ? "vert" : rsi > rsiHaut ? "rouge" : "jaune");
 
     if (macd) {
       macdValue.textContent =
         "MACD " + formatNombre(macd.macd, 2) +
         " / Signal " + formatNombre(macd.signal, 2);
 
-      macdValue.className = "indicator-value " +
-        (macd.macd > macd.signal ? "green" : "red");
+      macdValue.className =
+        "indicator-value " + (macd.macd > macd.signal ? "vert" : "rouge");
     } else {
       macdValue.textContent = "---";
-      macdValue.className = "indicator-value yellow";
+      macdValue.className = "indicator-value jaune";
     }
 
     maValue.textContent =
@@ -852,13 +1145,16 @@
       " | 50 : " + formatNombre(ma50, 2) +
       " | 200 : " + formatNombre(ma200, 2);
 
-    maValue.className = "indicator-value " +
-      (ma20 > ma50 && ma50 > ma200 ? "green" :
-       ma20 < ma50 && ma50 < ma200 ? "red" :
-       "yellow");
+    maValue.className =
+      "indicator-value " +
+      (ma20 > ma50 && ma50 > ma200 ? "vert" :
+       ma20 < ma50 && ma50 < ma200 ? "rouge" :
+       "jaune");
 
     trendValue.textContent = tendance.texte;
     trendValue.className = "indicator-value " + tendance.classe;
+
+    volatiliteCourte.textContent = volatilite !== null ? formatNombre(volatilite, 3) + " %" : "---";
 
     let scoreAchat = 0;
     let scoreVente = 0;
@@ -866,12 +1162,12 @@
 
     if (rsi !== null && rsi < rsiBas) {
       scoreAchat++;
-      raisons.push("RSI en zone basse");
+      raisons.push("RSI bas");
     }
 
     if (rsi !== null && rsi > rsiHaut) {
       scoreVente++;
-      raisons.push("RSI en zone haute");
+      raisons.push("RSI haut");
     }
 
     if (macd && macd.macd > macd.signal) {
@@ -904,28 +1200,67 @@
       raisons.push("variation courte négative");
     }
 
-    if (tendance.classe === "green") {
+    if (tendance.classe === "vert") {
       scoreAchat++;
       raisons.push("tendance globale haussière");
     }
 
-    if (tendance.classe === "red") {
+    if (tendance.classe === "rouge") {
       scoreVente++;
       raisons.push("tendance globale baissière");
     }
 
+    let signal = "ATTENDRE";
+    let classeSignal = "wait";
+
     if (scoreAchat >= 3 && scoreAchat > scoreVente) {
-      afficherSignal("ACHETER", "buy");
+      signal = "ACHETER";
+      classeSignal = "buy";
     } else if (scoreVente >= 3 && scoreVente > scoreAchat) {
-      afficherSignal("VENDRE", "sell");
-    } else {
-      afficherSignal("ATTENDRE", "wait");
+      signal = "VENDRE";
+      classeSignal = "sell";
     }
 
-    raisonSignal.textContent =
-      raisons.length > 0
-        ? "Raisons détectées : " + raisons.join(", ") + "."
-        : "Aucun signal technique fort.";
+    const scoreFort = Math.max(scoreAchat, scoreVente);
+    const confiance = Math.min(100, Math.round((scoreFort / 5) * 100));
+
+    afficherSignal(signal, classeSignal);
+    appliquerTendanceVisuelle(signal);
+
+    confianceSignal.textContent = confiance + " %";
+    confianceSignal.className =
+      confiance >= 70 ? "vert" :
+      confiance >= 40 ? "jaune" :
+      "rouge";
+
+    resumeSignal.textContent = signal;
+    resumeSignal.className =
+      signal === "ACHETER" ? "extra-value vert" :
+      signal === "VENDRE" ? "extra-value rouge" :
+      "extra-value jaune";
+
+    resumeConfiance.textContent = confiance + " %";
+    resumeConfiance.className = confianceSignal.className;
+
+    const texteRaisons = raisons.length > 0 ? raisons.join(", ") : "Aucun signal technique fort";
+
+    raisonSignal.textContent = "Raisons détectées : " + texteRaisons + ".";
+
+    if (signal === "ACHETER" && confiance >= 70) {
+      recommandationPrudente.textContent = "Signal haussier détecté, mais attendre confirmation peut rester prudent.";
+      lecturePrudente.textContent = "Signal haussier";
+      lecturePrudente.className = "extra-value vert";
+    } else if (signal === "VENDRE" && confiance >= 70) {
+      recommandationPrudente.textContent = "Signal baissier détecté : prudence élevée sur le marché.";
+      lecturePrudente.textContent = "Signal baissier";
+      lecturePrudente.className = "extra-value rouge";
+    } else {
+      recommandationPrudente.textContent = "Marché incertain : éviter les décisions précipitées.";
+      lecturePrudente.textContent = "Observation";
+      lecturePrudente.className = "extra-value jaune";
+    }
+
+    ajouterJournalSignal(signal, confiance, texteRaisons);
   }
 
   function afficherSignal(texte, classe) {
@@ -933,26 +1268,30 @@
     signalBox.className = "signal " + classe;
   }
 
-  function ajouterBougie(label, close, volume) {
+  function majPrixAffiche() {
+    const dernier = closes[closes.length - 1];
+
+    if (!dernier) return;
+
     if (prixInitial === null) {
-      prixInitial = close;
+      prixInitial = dernier;
     }
 
-    labels.push(label);
-    closes.push(close);
-    volumes.push(volume);
-
-    if (closes.length > MAX_POINTS) {
-      closes.shift();
-      labels.shift();
-      volumes.shift();
+    if (prixMaxSession === null || dernier > prixMaxSession) {
+      prixMaxSession = dernier;
     }
 
-    const variation = ((close - prixInitial) / prixInitial) * 100;
+    if (prixMinSession === null || dernier < prixMinSession) {
+      prixMinSession = dernier;
+    }
 
-    prixEl.textContent = formatPrix(close);
+    const variation = ((dernier - prixInitial) / prixInitial) * 100;
+
+    prixEl.textContent = formatPrix(dernier);
     variationEl.textContent = variation.toFixed(4) + " %";
-    volumeEl.textContent = Number(volume).toFixed(4) + " BTC";
+    volumeEl.textContent = Number(volumes[volumes.length - 1]).toFixed(4) + " BTC";
+    prixMaxEl.textContent = formatPrix(prixMaxSession);
+    prixMinEl.textContent = formatPrix(prixMinSession);
     heureEl.textContent = new Date().toLocaleTimeString("fr-CA");
 
     variationEl.style.color =
@@ -960,6 +1299,31 @@
       variation < 0 ? "#ff1744" :
       "#ffd600";
 
+    verifierAlertes(dernier);
+  }
+
+  function ajouterOuModifierBougie(timestamp, label, close, volume) {
+    const indexDernier = tempsBougies.length - 1;
+
+    if (tempsBougies[indexDernier] === timestamp) {
+      labels[indexDernier] = label;
+      closes[indexDernier] = close;
+      volumes[indexDernier] = volume;
+    } else {
+      tempsBougies.push(timestamp);
+      labels.push(label);
+      closes.push(close);
+      volumes.push(volume);
+    }
+
+    while (closes.length > MAX_POINTS) {
+      tempsBougies.shift();
+      labels.shift();
+      closes.shift();
+      volumes.shift();
+    }
+
+    majPrixAffiche();
     majGraphique();
     majGestionRisque();
     majIndicateursEtSignal();
@@ -971,28 +1335,32 @@
       const reponse = await fetch(url);
       const donnees = await reponse.json();
 
+      labels = [];
+      closes = [];
+      volumes = [];
+      tempsBougies = [];
+
       donnees.forEach(item => {
-        const temps = new Date(item[0]).toLocaleTimeString("fr-CA", {
+        const timestamp = item[0];
+        const label = new Date(timestamp).toLocaleTimeString("fr-CA", {
           hour: "2-digit",
           minute: "2-digit"
         });
 
-        const close = Number(item[4]);
-        const volume = Number(item[5]);
-
-        labels.push(temps);
-        closes.push(close);
-        volumes.push(volume);
+        tempsBougies.push(timestamp);
+        labels.push(label);
+        closes.push(Number(item[4]));
+        volumes.push(Number(item[5]));
       });
 
-      if (closes.length > 0) {
-        prixInitial = closes[0];
-        const dernier = closes[closes.length - 1];
+      prixInitial = closes[0];
+      prixMaxSession = Math.max(...closes);
+      prixMinSession = Math.min(...closes);
 
-        prixEl.textContent = formatPrix(dernier);
-        volumeEl.textContent = Number(volumes[volumes.length - 1]).toFixed(4) + " BTC";
-      }
+      btcChart.data.labels = labels;
+      btcChart.data.datasets[0].data = closes;
 
+      majPrixAffiche();
       majGraphique();
       majGestionRisque();
       majIndicateursEtSignal();
@@ -1003,50 +1371,82 @@
     }
   }
 
-  function connecterWebSocket() {
-    const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+  async function rafraichirDerniereBougie() {
+    if (pauseActive) return;
 
-    socket.onmessage = function(event) {
-      const data = JSON.parse(event.data);
-      const kline = data.k;
+    try {
+      const url = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1";
+      const reponse = await fetch(url);
+      const donnees = await reponse.json();
 
-      const close = Number(kline.c);
-      const volume = Number(kline.v);
+      const item = donnees[0];
 
-      const label = new Date(kline.t).toLocaleTimeString("fr-CA", {
+      const timestamp = item[0];
+      const label = new Date(timestamp).toLocaleTimeString("fr-CA", {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit"
       });
 
-      if (kline.x) {
-        ajouterBougie(label, close, volume);
-      } else {
-        if (closes.length > 0) {
-          closes[closes.length - 1] = close;
-          volumes[volumes.length - 1] = volume;
-          labels[labels.length - 1] = label;
+      const close = Number(item[4]);
+      const volume = Number(item[5]);
 
-          prixEl.textContent = formatPrix(close);
-          volumeEl.textContent = Number(volume).toFixed(4) + " BTC";
-          heureEl.textContent = new Date().toLocaleTimeString("fr-CA");
+      ajouterOuModifierBougie(timestamp, label, close, volume);
 
-          majGraphique();
-          majGestionRisque();
-          majIndicateursEtSignal();
-        }
-      }
-    };
-
-    socket.onerror = function(erreur) {
-      console.error("Erreur WebSocket :", erreur);
-    };
-
-    socket.onclose = function() {
-      console.warn("Connexion fermée. Reconnexion dans 5 secondes.");
-      setTimeout(connecterWebSocket, 5000);
-    };
+    } catch (erreur) {
+      console.error("Erreur de rafraîchissement :", erreur);
+    }
   }
+
+  function demarrerRafraichissement() {
+    clearInterval(intervalRafraichissement);
+    clearInterval(intervalCompteur);
+
+    secondesRestantes = RAFRAICHISSEMENT_MS / 1000;
+
+    intervalRafraichissement = setInterval(() => {
+      rafraichirDerniereBougie();
+      secondesRestantes = RAFRAICHISSEMENT_MS / 1000;
+    }, RAFRAICHISSEMENT_MS);
+
+    intervalCompteur = setInterval(() => {
+      if (pauseActive) {
+        compteurEl.textContent = "pause";
+        return;
+      }
+
+      secondesRestantes--;
+
+      if (secondesRestantes < 0) {
+        secondesRestantes = RAFRAICHISSEMENT_MS / 1000;
+      }
+
+      compteurEl.textContent = secondesRestantes + " secondes";
+    }, 1000);
+  }
+
+  pauseBtn.addEventListener("click", () => {
+    pauseActive = !pauseActive;
+
+    if (pauseActive) {
+      pauseBtn.textContent = "Reprendre";
+      compteurEl.textContent = "pause";
+    } else {
+      pauseBtn.textContent = "Mettre en pause";
+      secondesRestantes = RAFRAICHISSEMENT_MS / 1000;
+      rafraichirDerniereBougie();
+    }
+  });
+
+  delaiRafraichissementInput.addEventListener("input", () => {
+    const secondes = Number(delaiRafraichissementInput.value);
+
+    if (secondes >= 5) {
+      RAFRAICHISSEMENT_MS = secondes * 1000;
+      secondesRestantes = secondes;
+      demarrerRafraichissement();
+    }
+  });
 
   [
     rsiBasInput,
@@ -1054,17 +1454,28 @@
     variationMinInput,
     capitalInput,
     risquePourcentageInput,
-    stopLossInput
+    stopLossInput,
+    alerteHauteInput,
+    alerteBasseInput
   ].forEach(input => {
     input.addEventListener("input", () => {
       majGestionRisque();
       majIndicateursEtSignal();
+      majPrixAffiche();
     });
   });
 
-  chargerHistorique();
-  connecterWebSocket();
+  chargerHistorique().then(() => {
+    rafraichirDerniereBougie();
+    demarrerRafraichissement();
+  });
 </script>
-
+<footer>
+  Bitcoin Monitor — Page éducative et indicative seulement.
+</footer>
+<footer>
+  Bitcoin Monitor — Page éducative et indicative seulement.<br>
+  Page développée par Hocine Korichi. Avril 2026. Tous droits réservés.
+</footer>
 </body>
 </html>
