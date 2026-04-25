@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Surveillance Bitcoin en temps réel</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg: #050505;
+      --card: #111;
+      --card2: #181818;
+      --text: #f5f5f5;
+      --muted: #b8b8b8;
+      --green: #00c853;
+      --red: #ff1744;
+      --yellow: #ffd600;
+      --blue: #00b0ff;
+      --border: #2b2b2b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.88)),
+        url("img/bitcoin-bg.jfif") center/cover no-repeat;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--yellow);
+    }
+
+    nav {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    nav a:hover {
+      background: var(--yellow);
+      color: #000;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 35px auto 10px;
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      color: var(--yellow);
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .hero img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 0 20px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 0 22px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+    }
+
+    .price-box {
+      display: grid;
+      gap: 15px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue);
+    }
+
+    .variation {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .signal {
+      padding: 16px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      border: 1px solid var(--border);
+      background: #080808;
+    }
+
+    .signal.buy {
+      color: var(--green);
+      border-color: var(--green);
+    }
+
+    .signal.sell {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    .signal.wait {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .chart-box {
+      height: 380px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    h2 {
+      color: var(--yellow);
+      margin-bottom: 12px;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      color: var(--blue);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .indicators {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .indicator {
+      background: #0b0b0b;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 15px;
+    }
+
+    .indicator-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .green {
+      color: var(--green);
+    }
+
+    .red {
+      color: var(--red);
+    }
+
+    .yellow {
+      color: var(--yellow);
+    }
+
+    .blue {
+      color: var(--blue);
+    }
+
+    .settings {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .settings label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #080808;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    a {
+      color: var(--blue);
+      word-break: break-word;
+    }
+
+    .warning {
+      border-left: 5px solid var(--yellow);
+      background: linear-gradient(180deg, #151515, #101010);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 25px;
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+      background: #080808;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .dashboard,
+      .indicators,
+      .settings {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 1.7rem;
+      }
+
+      .price {
+        font-size: 1.6rem;
+      }
+
+      .chart-box {
+        height: 280px;
+      }
+
+      nav {
+        width: 100%;
+      }
+
+      nav a {
+        flex: 1 1 auto;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 15px;
+      }
+
+      main {
+        padding: 0 12px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .signal {
+        font-size: 1.25rem;
+      }
+
+      .chart-box {
+        height: 240px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header id="accueil">
+  <div class="topbar">
+    <div class="logo">Bitcoin Monitor</div>
+
+    <nav>
+      <a href="#accueil">Accueil</a>
+      <a href="#cours">Cours</a>
+      <a href="#indicateurs">Indicateurs</a>
+      <a href="#parametres">Paramètres</a>
+      <a href="#risque">Risque</a>
+      <a href="#api">API</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <div>
+      <h1>Surveillance du Bitcoin en temps réel</h1>
+      <p>
+        Cette page affiche le cours du Bitcoin, un graphique dynamique,
+        des indicateurs techniques et un signal automatique.
+        Le résultat reste indicatif et ne constitue pas un conseil financier.
+      </p>
+    </div>
+
+    <img src="img/bitcoin-wallet.jfif" alt="Portefeuille Bitcoin">
+  </div>
+</header>
+
+<main>
+
+  <section id="cours" class="dashboard">
+    <div class="card price-box">
+      <div>
+        <div class="label">Cours BTC / USDT</div>
+        <div id="prix" class="price">Chargement...</div>
+      </div>
+
+      <div>
+        <div class="label">Variation depuis l’ouverture</div>
+        <div id="variation" class="variation">En attente...</div>
+      </div>
+
+      <div>
+        <div class="label">Volume dernière minute</div>
+        <div id="volume" class="blue">---</div>
+      </div>
+
+      <div>
+        <div class="label">Dernière mise à jour</div>
+        <div id="heure" class="small">---</div>
+      </div>
+
+      <div id="signalBox" class="signal wait">
+        ATTENDRE
+      </div>
+
+      <p id="raisonSignal" class="small">
+        Analyse en cours...
+      </p>
+    </div>
+
+    <div class="card chart-box">
+      <canvas id="btcChart"></canvas>
+    </div>
+  </section>
+
+  <section id="indicateurs" class="card">
+    <h2>Indicateurs techniques</h2>
+
+    <div class="indicators">
+      <div class="indicator">
+        <h3>RSI 14</h3>
+        <div id="rsiValue" class="indicator-value">---</div>
+        <p class="small">Surachat au-dessus du seuil haut, survente sous le seuil bas.</p>
+      </div>
+
+      <div class="indicator">
+        <h3>MACD</h3>
+        <div id="macdValue" class="indicator-value">---</div>
+        <p class="small">Signal haussier si MACD supérieur à sa ligne de signal.</p>
+      </div>
+
+      <div class="indicator">
+        <h3>Moyennes mobiles</h3>
+        <div id="maValue" class="indicator-value">---</div>
+        <p class="small">MA20, MA50 et MA200 pour lire la tendance.</p>
+      </div>
+
+      <div class="indicator">
+        <h3>Tendance</h3>
+        <div id="trendValue" class="indicator-value">---</div>
+        <p class="small">Court, moyen et long terme.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="parametres" class="card">
+    <h2>Seuils personnalisables</h2>
+
+    <div class="settings">
+      <label>
+        RSI bas, zone d’achat possible
+        <input id="rsiBas" type="number" value="30" min="1" max="100">
+      </label>
+
+      <label>
+        RSI haut, zone de vente possible
+        <input id="rsiHaut" type="number" value="70" min="1" max="100">
+      </label>
+
+      <label>
+        Variation minimale en %
+        <input id="variationMin" type="number" value="0.05" step="0.01">
+      </label>
+
+      <label>
+        Capital disponible en USDT
+        <input id="capital" type="number" value="1000" step="10">
+      </label>
+
+      <label>
+        Risque maximal par opération en %
+        <input id="risquePourcentage" type="number" value="2" step="0.1">
+      </label>
+
+      <label>
+        Stop-loss indicatif en %
+        <input id="stopLoss" type="number" value="1.5" step="0.1">
+      </label>
+    </div>
+  </section>
+
+  <section id="risque" class="card warning">
+    <h2>Gestion du risque</h2>
+
+    <p>
+      La gestion du risque indique combien il serait prudent de ne pas dépasser
+      selon le capital, le risque maximal accepté et le stop-loss choisi.
+    </p>
+
+    <ul>
+      <li><strong>Capital :</strong> <span id="capitalAffiche">---</span></li>
+      <li><strong>Risque maximal :</strong> <span id="risqueAffiche">---</span></li>
+      <li><strong>Perte maximale théorique :</strong> <span id="perteMax">---</span></li>
+      <li><strong>Montant indicatif de position :</strong> <span id="positionMax">---</span></li>
+    </ul>
+
+    <p class="small">
+      Ce calcul est indicatif. Il ne garantit aucune protection réelle contre les pertes,
+      surtout dans un marché très volatil.
+    </p>
+  </section>
+
+  <section class="card warning">
+    <h2>Remarque importante</h2>
+
+    <p>
+      Le bouton <strong>Acheter / Vendre / Attendre</strong> n’est pas un vrai conseiller financier.
+      C’est seulement un signal technique automatique basé sur quelques calculs simples.
+    </p>
+
+    <p>
+      Le système utilise maintenant :
+    </p>
+
+    <ul>
+      <li>RSI ;</li>
+      <li>MACD ;</li>
+      <li>moyennes mobiles 20 / 50 / 200 ;</li>
+      <li>volume ;</li>
+      <li>tendance sur plusieurs périodes ;</li>
+      <li>gestion du risque ;</li>
+      <li>seuils personnalisables.</li>
+    </ul>
+  </section>
+
+  <section id="api" class="card">
+    <h2>Liens API utilisés</h2>
+
+    <p>
+      <strong>WebSocket bougies 1 minute Binance :</strong><br>
+      <a href="wss://stream.binance.com:9443/ws/btcusdt@kline_1m">
+        wss://stream.binance.com:9443/ws/btcusdt@kline_1m
+      </a>
+    </p>
+
+    <p>
+      <strong>Historique Binance :</strong><br>
+      <a href="https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250" target="_blank">
+        https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250
+      </a>
+    </p>
+
+    <p>
+      <strong>Prix instantané Binance :</strong><br>
+      <a href="https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT" target="_blank">
+        https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT
+      </a>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  Bitcoin Monitor — Page éducative et indicative seulement.
+</footer>
+
+<script>
+  const prixEl = document.getElementById("prix");
+  const variationEl = document.getElementById("variation");
+  const volumeEl = document.getElementById("volume");
+  const heureEl = document.getElementById("heure");
+  const signalBox = document.getElementById("signalBox");
+  const raisonSignal = document.getElementById("raisonSignal");
+
+  const rsiValue = document.getElementById("rsiValue");
+  const macdValue = document.getElementById("macdValue");
+  const maValue = document.getElementById("maValue");
+  const trendValue = document.getElementById("trendValue");
+
+  const rsiBasInput = document.getElementById("rsiBas");
+  const rsiHautInput = document.getElementById("rsiHaut");
+  const variationMinInput = document.getElementById("variationMin");
+  const capitalInput = document.getElementById("capital");
+  const risquePourcentageInput = document.getElementById("risquePourcentage");
+  const stopLossInput = document.getElementById("stopLoss");
+
+  const capitalAffiche = document.getElementById("capitalAffiche");
+  const risqueAffiche = document.getElementById("risqueAffiche");
+  const perteMax = document.getElementById("perteMax");
+  const positionMax = document.getElementById("positionMax");
+
+  let prixInitial = null;
+  let labels = [];
+  let closes = [];
+  let volumes = [];
+
+  const MAX_POINTS = 250;
+
+  const ctx = document.getElementById("btcChart").getContext("2d");
+
+  const btcChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "BTC/USDT",
+          data: closes,
+          borderWidth: 2,
+          tension: 0.25,
+          pointRadius: 0
+        },
+        {
+          label: "MA20",
+          data: [],
+          borderWidth: 1,
+          pointRadius: 0
+        },
+        {
+          label: "MA50",
+          data: [],
+          borderWidth: 1,
+          pointRadius: 0
+        },
+        {
+          label: "MA200",
+          data: [],
+          borderWidth: 1,
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#f5f5f5"
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: "#b8b8b8",
+            maxTicksLimit: 8
+          },
+          grid: {
+            color: "#222"
+          }
+        },
+        y: {
+          ticks: {
+            color: "#b8b8b8"
+          },
+          grid: {
+            color: "#222"
+          }
+        }
+      }
+    }
+  });
+
+  function formatPrix(valeur) {
+    return Number(valeur).toLocaleString("fr-CA", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }) + " USDT";
+  }
+
+  function formatNombre(valeur, decimales = 2) {
+    if (!isFinite(valeur)) return "---";
+    return Number(valeur).toFixed(decimales);
+  }
+
+  function moyenne(tableau) {
+    if (!tableau || tableau.length === 0) return null;
+    return tableau.reduce((a, b) => a + b, 0) / tableau.length;
+  }
+
+  function sma(data, periode) {
+    if (data.length < periode) return null;
+    return moyenne(data.slice(-periode));
+  }
+
+  function serieSMA(data, periode) {
+    return data.map((_, index) => {
+      if (index + 1 < periode) return null;
+      const segment = data.slice(index + 1 - periode, index + 1);
+      return moyenne(segment);
+    });
+  }
+
+  function emaSerie(data, periode) {
+    if (data.length < periode) return [];
+
+    const k = 2 / (periode + 1);
+    let ema = moyenne(data.slice(0, periode));
+    const resultats = [];
+
+    for (let i = 0; i < data.length; i++) {
+      if (i < periode - 1) {
+        resultats.push(null);
+      } else if (i === periode - 1) {
+        resultats.push(ema);
+      } else {
+        ema = data[i] * k + ema * (1 - k);
+        resultats.push(ema);
+      }
+    }
+
+    return resultats;
+  }
+
+  function calculerRSI(data, periode = 14) {
+    if (data.length <= periode) return null;
+
+    let gains = 0;
+    let pertes = 0;
+
+    const debut = data.length - periode;
+
+    for (let i = debut; i < data.length; i++) {
+      const difference = data[i] - data[i - 1];
+
+      if (difference >= 0) {
+        gains += difference;
+      } else {
+        pertes += Math.abs(difference);
+      }
+    }
+
+    const gainMoyen = gains / periode;
+    const perteMoyenne = pertes / periode;
+
+    if (perteMoyenne === 0) return 100;
+
+    const rs = gainMoyen / perteMoyenne;
+    return 100 - (100 / (1 + rs));
+  }
+
+  function calculerMACD(data) {
+    if (data.length < 35) return null;
+
+    const ema12 = emaSerie(data, 12);
+    const ema26 = emaSerie(data, 26);
+
+    const macdLine = data.map((_, i) => {
+      if (ema12[i] === null || ema26[i] === null) return null;
+      return ema12[i] - ema26[i];
+    });
+
+    const macdValides = macdLine.filter(v => v !== null);
+
+    if (macdValides.length < 9) return null;
+
+    const signalSerie = emaSerie(macdValides, 9);
+    const macdDernier = macdValides[macdValides.length - 1];
+    const signalDernier = signalSerie[signalSerie.length - 1];
+
+    return {
+      macd: macdDernier,
+      signal: signalDernier,
+      histogramme: macdDernier - signalDernier
+    };
+  }
+
+  function determinerTendance(data) {
+    if (data.length < 200) {
+      return {
+        texte: "Historique insuffisant",
+        classe: "yellow",
+        court: "---",
+        moyen: "---",
+        long: "---"
+      };
+    }
+
+    const dernier = data[data.length - 1];
+    const ma20 = sma(data, 20);
+    const ma50 = sma(data, 50);
+    const ma200 = sma(data, 200);
+
+    const court = dernier > ma20 ? "haussière" : "baissière";
+    const moyen = ma20 > ma50 ? "haussière" : "baissière";
+    const long = ma50 > ma200 ? "haussière" : "baissière";
+
+    let texte = `Court : ${court} | Moyen : ${moyen} | Long : ${long}`;
+    let classe = "yellow";
+
+    if (court === "haussière" && moyen === "haussière" && long === "haussière") {
+      classe = "green";
+    } else if (court === "baissière" && moyen === "baissière" && long === "baissière") {
+      classe = "red";
+    }
+
+    return { texte, classe, court, moyen, long };
+  }
+
+  function majGraphique() {
+    btcChart.data.datasets[1].data = serieSMA(closes, 20);
+    btcChart.data.datasets[2].data = serieSMA(closes, 50);
+    btcChart.data.datasets[3].data = serieSMA(closes, 200);
+    btcChart.update();
+  }
+
+  function majGestionRisque() {
+    const capital = Number(capitalInput.value);
+    const risquePourcentage = Number(risquePourcentageInput.value);
+    const stopLoss = Number(stopLossInput.value);
+
+    const perte = capital * (risquePourcentage / 100);
+    const position = stopLoss > 0 ? perte / (stopLoss / 100) : 0;
+
+    capitalAffiche.textContent = capital.toFixed(2) + " USDT";
+    risqueAffiche.textContent = risquePourcentage.toFixed(2) + " %";
+    perteMax.textContent = perte.toFixed(2) + " USDT";
+    positionMax.textContent = position.toFixed(2) + " USDT";
+  }
+
+  function majIndicateursEtSignal() {
+    if (closes.length < 50) {
+      afficherSignal("ATTENDRE", "wait");
+      raisonSignal.textContent = "Historique insuffisant pour une analyse fiable.";
+      return;
+    }
+
+    const dernier = closes[closes.length - 1];
+    const ancien = closes[closes.length - 6] || closes[0];
+
+    const rsiBas = Number(rsiBasInput.value);
+    const rsiHaut = Number(rsiHautInput.value);
+    const variationMin = Number(variationMinInput.value);
+
+    const rsi = calculerRSI(closes, 14);
+    const macd = calculerMACD(closes);
+    const ma20 = sma(closes, 20);
+    const ma50 = sma(closes, 50);
+    const ma200 = sma(closes, 200);
+    const tendance = determinerTendance(closes);
+
+    const variationCourte = ((dernier - ancien) / ancien) * 100;
+
+    rsiValue.textContent = rsi ? formatNombre(rsi, 2) : "---";
+    rsiValue.className = "indicator-value " + (
+      rsi < rsiBas ? "green" :
+      rsi > rsiHaut ? "red" :
+      "yellow"
+    );
+
+    if (macd) {
+      macdValue.textContent =
+        "MACD " + formatNombre(macd.macd, 2) +
+        " / Signal " + formatNombre(macd.signal, 2);
+
+      macdValue.className = "indicator-value " +
+        (macd.macd > macd.signal ? "green" : "red");
+    } else {
+      macdValue.textContent = "---";
+      macdValue.className = "indicator-value yellow";
+    }
+
+    maValue.textContent =
+      "20 : " + formatNombre(ma20, 2) +
+      " | 50 : " + formatNombre(ma50, 2) +
+      " | 200 : " + formatNombre(ma200, 2);
+
+    maValue.className = "indicator-value " +
+      (ma20 > ma50 && ma50 > ma200 ? "green" :
+       ma20 < ma50 && ma50 < ma200 ? "red" :
+       "yellow");
+
+    trendValue.textContent = tendance.texte;
+    trendValue.className = "indicator-value " + tendance.classe;
+
+    let scoreAchat = 0;
+    let scoreVente = 0;
+    let raisons = [];
+
+    if (rsi !== null && rsi < rsiBas) {
+      scoreAchat++;
+      raisons.push("RSI en zone basse");
+    }
+
+    if (rsi !== null && rsi > rsiHaut) {
+      scoreVente++;
+      raisons.push("RSI en zone haute");
+    }
+
+    if (macd && macd.macd > macd.signal) {
+      scoreAchat++;
+      raisons.push("MACD haussier");
+    }
+
+    if (macd && macd.macd < macd.signal) {
+      scoreVente++;
+      raisons.push("MACD baissier");
+    }
+
+    if (ma20 && ma50 && ma200 && ma20 > ma50 && ma50 > ma200) {
+      scoreAchat++;
+      raisons.push("moyennes mobiles haussières");
+    }
+
+    if (ma20 && ma50 && ma200 && ma20 < ma50 && ma50 < ma200) {
+      scoreVente++;
+      raisons.push("moyennes mobiles baissières");
+    }
+
+    if (variationCourte > variationMin) {
+      scoreAchat++;
+      raisons.push("variation courte positive");
+    }
+
+    if (variationCourte < -variationMin) {
+      scoreVente++;
+      raisons.push("variation courte négative");
+    }
+
+    if (tendance.classe === "green") {
+      scoreAchat++;
+      raisons.push("tendance globale haussière");
+    }
+
+    if (tendance.classe === "red") {
+      scoreVente++;
+      raisons.push("tendance globale baissière");
+    }
+
+    if (scoreAchat >= 3 && scoreAchat > scoreVente) {
+      afficherSignal("ACHETER", "buy");
+    } else if (scoreVente >= 3 && scoreVente > scoreAchat) {
+      afficherSignal("VENDRE", "sell");
+    } else {
+      afficherSignal("ATTENDRE", "wait");
+    }
+
+    raisonSignal.textContent =
+      raisons.length > 0
+        ? "Raisons détectées : " + raisons.join(", ") + "."
+        : "Aucun signal technique fort.";
+  }
+
+  function afficherSignal(texte, classe) {
+    signalBox.textContent = texte;
+    signalBox.className = "signal " + classe;
+  }
+
+  function ajouterBougie(label, close, volume) {
+    if (prixInitial === null) {
+      prixInitial = close;
+    }
+
+    labels.push(label);
+    closes.push(close);
+    volumes.push(volume);
+
+    if (closes.length > MAX_POINTS) {
+      closes.shift();
+      labels.shift();
+      volumes.shift();
+    }
+
+    const variation = ((close - prixInitial) / prixInitial) * 100;
+
+    prixEl.textContent = formatPrix(close);
+    variationEl.textContent = variation.toFixed(4) + " %";
+    volumeEl.textContent = Number(volume).toFixed(4) + " BTC";
+    heureEl.textContent = new Date().toLocaleTimeString("fr-CA");
+
+    variationEl.style.color =
+      variation > 0 ? "#00c853" :
+      variation < 0 ? "#ff1744" :
+      "#ffd600";
+
+    majGraphique();
+    majGestionRisque();
+    majIndicateursEtSignal();
+  }
+
+  async function chargerHistorique() {
+    try {
+      const url = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250";
+      const reponse = await fetch(url);
+      const donnees = await reponse.json();
+
+      donnees.forEach(item => {
+        const temps = new Date(item[0]).toLocaleTimeString("fr-CA", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+
+        const close = Number(item[4]);
+        const volume = Number(item[5]);
+
+        labels.push(temps);
+        closes.push(close);
+        volumes.push(volume);
+      });
+
+      if (closes.length > 0) {
+        prixInitial = closes[0];
+        const dernier = closes[closes.length - 1];
+
+        prixEl.textContent = formatPrix(dernier);
+        volumeEl.textContent = Number(volumes[volumes.length - 1]).toFixed(4) + " BTC";
+      }
+
+      majGraphique();
+      majGestionRisque();
+      majIndicateursEtSignal();
+
+    } catch (erreur) {
+      console.error("Erreur historique :", erreur);
+      prixEl.textContent = "Erreur de chargement";
+    }
+  }
+
+  function connecterWebSocket() {
+    const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      const kline = data.k;
+
+      const close = Number(kline.c);
+      const volume = Number(kline.v);
+
+      const label = new Date(kline.t).toLocaleTimeString("fr-CA", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+
+      if (kline.x) {
+        ajouterBougie(label, close, volume);
+      } else {
+        if (closes.length > 0) {
+          closes[closes.length - 1] = close;
+          volumes[volumes.length - 1] = volume;
+          labels[labels.length - 1] = label;
+
+          prixEl.textContent = formatPrix(close);
+          volumeEl.textContent = Number(volume).toFixed(4) + " BTC";
+          heureEl.textContent = new Date().toLocaleTimeString("fr-CA");
+
+          majGraphique();
+          majGestionRisque();
+          majIndicateursEtSignal();
+        }
+      }
+    };
+
+    socket.onerror = function(erreur) {
+      console.error("Erreur WebSocket :", erreur);
+    };
+
+    socket.onclose = function() {
+      console.warn("Connexion fermée. Reconnexion dans 5 secondes.");
+      setTimeout(connecterWebSocket, 5000);
+    };
+  }
+
+  [
+    rsiBasInput,
+    rsiHautInput,
+    variationMinInput,
+    capitalInput,
+    risquePourcentageInput,
+    stopLossInput
+  ].forEach(input => {
+    input.addEventListener("input", () => {
+      majGestionRisque();
+      majIndicateursEtSignal();
+    });
+  });
+
+  chargerHistorique();
+  connecterWebSocket();
+</script>
+
+</body>
+</html>
