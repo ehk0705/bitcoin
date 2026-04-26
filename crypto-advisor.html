@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bitcoin Monitor - Aide à la décision</title>
+
+  <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+
+  <style>
+    :root {
+      --bg: #080b12;
+      --card: #111827;
+      --card2: #0f172a;
+      --border: #233047;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #facc15;
+      --blue: #38bdf8;
+      --orange: #f97316;
+      --purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #111827, #020617);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 25px 20px;
+      background: #020617;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--yellow);
+    }
+
+    header p {
+      margin: 10px auto 0;
+      max-width: 900px;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px;
+      background: #0f172a;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #111827;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      background: #1f2937;
+      color: var(--yellow);
+    }
+
+    main {
+      width: min(1400px, 96%);
+      margin: 25px auto;
+    }
+
+    section {
+      margin-bottom: 26px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
+
+    .card h2, .card h3 {
+      margin-top: 0;
+      color: var(--yellow);
+    }
+
+    .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+    }
+
+    .buy {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--green);
+    }
+
+    .sell {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+    }
+
+    .wait {
+      background: rgba(250, 204, 21, 0.12);
+      color: var(--yellow);
+    }
+
+    .info {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--blue);
+    }
+
+    .danger {
+      color: var(--red);
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    .warning {
+      color: var(--yellow);
+    }
+
+    #chart {
+      width: 100%;
+      height: 520px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #020617;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: bold;
+      color: #020617;
+      background: var(--yellow);
+      margin-top: 8px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      color: var(--yellow);
+      background: rgba(250, 204, 21, 0.06);
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .log {
+      max-height: 260px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.92rem;
+    }
+
+    .image-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .image-row img {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      max-height: 280px;
+    }
+
+    footer {
+      padding: 22px;
+      text-align: center;
+      background: #020617;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4, .image-row {
+        grid-template-columns: 1fr;
+      }
+
+      #chart {
+        height: 380px;
+      }
+
+      header h1 {
+        font-size: 1.55rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header id="accueil">
+  <h1>Surveillance intelligente du Bitcoin en temps réel</h1>
+  <p>
+    Plateforme éducative d’analyse technique, de gestion du risque et d’aide à la décision.
+    Elle ne donne pas de garantie de gain et ne remplace pas un conseiller financier.
+  </p>
+</header>
+
+<nav>
+  <a href="#cours">Cours</a>
+  <a href="#graphique">Graphique</a>
+  <a href="#indicateurs">Indicateurs</a>
+  <a href="#decision">Décision</a>
+  <a href="#risque">Risque</a>
+  <a href="#zones">Zones OB / FVG</a>
+  <a href="#fakeout">Faux mouvements</a>
+  <a href="#ressources">Ressources</a>
+  <a href="#journal">Journal</a>
+</nav>
+
+<main>
+
+  <section id="cours" class="grid grid-4">
+    <div class="card">
+      <h3>Cours BTC / USDT</h3>
+      <div id="prix" class="value">Chargement...</div>
+      <div class="small">Prix instantané Binance</div>
+    </div>
+
+    <div class="card">
+      <h3>Variation</h3>
+      <div id="variation" class="value">---</div>
+      <div class="small">Depuis la première bougie chargée</div>
+    </div>
+
+    <div class="card">
+      <h3>Volume</h3>
+      <div id="volume" class="value">---</div>
+      <div class="small">Dernière bougie</div>
+    </div>
+
+    <div class="card">
+      <h3>Mise à jour</h3>
+      <div id="maj" class="value">---</div>
+      <div class="small">Rafraîchissement automatique</div>
+    </div>
+  </section>
+
+  <section class="grid grid-3">
+    <div class="card">
+      <h3>Prix maximum</h3>
+      <div id="prixMax" class="value">---</div>
+      <div class="small">Depuis le chargement des données</div>
+    </div>
+
+    <div class="card">
+      <h3>Prix minimum</h3>
+      <div id="prixMin" class="value">---</div>
+      <div class="small">Depuis le chargement des données</div>
+    </div>
+
+    <div class="card">
+      <h3>Contrôle</h3>
+      <div>Rafraîchissement : <strong id="refreshText">20 secondes</strong></div>
+      <button id="pauseBtn" onclick="basculerPause()">Mettre en pause</button>
+    </div>
+  </section>
+
+  <section id="graphique" class="card">
+    <h2>Graphique dynamique BTC / USDT</h2>
+    <div id="chart"></div>
+    <p class="small">
+      Le graphique utilise les bougies d’une minute. Les lignes affichent les moyennes mobiles MA50, MA100 et MA200.
+    </p>
+  </section>
+
+  <section id="indicateurs" class="grid grid-4">
+    <div class="card">
+      <h3>RSI 14</h3>
+      <div id="rsi" class="value">---</div>
+      <div id="rsiText" class="small">Analyse en attente</div>
+    </div>
+
+    <div class="card">
+      <h3>MACD</h3>
+      <div id="macd" class="value">---</div>
+      <div id="macdText" class="small">Lecture de la dynamique</div>
+    </div>
+
+    <div class="card">
+      <h3>MA50 / MA100 / MA200</h3>
+      <div id="maResume" class="value">---</div>
+      <div class="small">Lecture de la tendance</div>
+    </div>
+
+    <div class="card">
+      <h3>Volatilité ATR</h3>
+      <div id="atr" class="value">---</div>
+      <div class="small">Amplitude moyenne récente</div>
+    </div>
+  </section>
+
+  <section id="decision" class="grid grid-2">
+    <div class="card">
+      <h2>Signal d’aide à la décision</h2>
+      <p>
+        Ce signal est indicatif. Il combine la tendance, les moyennes mobiles, le RSI,
+        le MACD, la volatilité, les zones techniques et le risque.
+      </p>
+
+      <h3>Signal actuel</h3>
+      <div id="signal" class="badge wait">ATTENDRE</div>
+
+      <h3>Niveau de confiance</h3>
+      <div id="confiance" class="value">---</div>
+
+      <h3>Lecture du marché</h3>
+      <p id="lectureMarche">Analyse en cours...</p>
+    </div>
+
+    <div class="card">
+      <h2>Lecture rapide</h2>
+      <ul>
+        <li><strong>Tendance :</strong> prix comparé aux MA50, MA100 et MA200.</li>
+        <li><strong>Force :</strong> confirmation par le RSI et le MACD.</li>
+        <li><strong>Risque :</strong> stop loss calculé avec la volatilité.</li>
+        <li><strong>Objectifs :</strong> take profit calculé selon le ratio risque / rendement.</li>
+        <li><strong>Pièges :</strong> détection des faux dépassements de niveaux.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="parametres" class="card">
+    <h2>Paramètres personnalisables</h2>
+
+    <div class="grid grid-4">
+      <div>
+        <label for="capital">Capital disponible en USDT</label>
+        <input id="capital" type="number" value="1000" min="1" />
+      </div>
+
+      <div>
+        <label for="risquePourcent">Risque maximal par opération en %</label>
+        <input id="risquePourcent" type="number" value="1" min="0.1" step="0.1" />
+      </div>
+
+      <div>
+        <label for="multiplicateurAtr">Distance stop loss selon ATR</label>
+        <input id="multiplicateurAtr" type="number" value="1.8" min="0.5" step="0.1" />
+      </div>
+
+      <div>
+        <label for="ratioGain">Ratio risque / rendement</label>
+        <input id="ratioGain" type="number" value="2" min="0.5" step="0.1" />
+      </div>
+    </div>
+
+    <div class="grid grid-4" style="margin-top:15px;">
+      <div>
+        <label for="rsiBas">RSI bas</label>
+        <input id="rsiBas" type="number" value="35" />
+      </div>
+
+      <div>
+        <label for="rsiHaut">RSI haut</label>
+        <input id="rsiHaut" type="number" value="70" />
+      </div>
+
+      <div>
+        <label for="alerteHaut">Alerte si le prix dépasse</label>
+        <input id="alerteHaut" type="number" placeholder="Exemple : 75000" />
+      </div>
+
+      <div>
+        <label for="alerteBas">Alerte si le prix descend sous</label>
+        <input id="alerteBas" type="number" placeholder="Exemple : 65000" />
+      </div>
+    </div>
+
+    <div style="margin-top:15px;">
+      <button onclick="actualiser()">Appliquer les paramètres</button>
+    </div>
+  </section>
+
+  <section id="risque" class="grid grid-2">
+    <div class="card">
+      <h2>Gestion avancée du risque</h2>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr>
+              <th>Capital</th>
+              <td id="riskCapital">---</td>
+            </tr>
+            <tr>
+              <th>Risque maximal</th>
+              <td id="riskMax">---</td>
+            </tr>
+            <tr>
+              <th>Stop loss indicatif</th>
+              <td id="riskStop">---</td>
+            </tr>
+            <tr>
+              <th>Take profit indicatif</th>
+              <td id="riskTp">---</td>
+            </tr>
+            <tr>
+              <th>Break even suggéré</th>
+              <td id="riskBe">---</td>
+            </tr>
+            <tr>
+              <th>Taille indicative de position</th>
+              <td id="riskPosition">---</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Principe de prudence</h2>
+      <p>
+        Le stop loss ne doit pas être trop serré. Le Bitcoin peut faire des mouvements brusques
+        avant de repartir dans la bonne direction.
+      </p>
+      <p>
+        Le break even ne doit pas être activé trop tôt. Sinon, une simple respiration du marché
+        peut fermer une bonne position inutilement.
+      </p>
+      <p class="warning">
+        Cette page donne une aide technique. Elle ne garantit jamais un résultat.
+      </p>
+    </div>
+  </section>
+
+  <section id="zones" class="grid grid-2">
+    <div class="card">
+      <h2>Order Blocks détectés</h2>
+      <p class="small">
+        Zones probables où de gros acheteurs ou vendeurs ont pu intervenir.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Zone basse</th>
+              <th>Zone haute</th>
+              <th>Distance</th>
+              <th>Importance</th>
+            </tr>
+          </thead>
+          <tbody id="obTable">
+            <tr><td colspan="5">Analyse en cours...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Fair Value Gaps détectés</h2>
+      <p class="small">
+        Zones de déséquilibre que le prix pourrait revenir combler.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Zone basse</th>
+              <th>Zone haute</th>
+              <th>Distance</th>
+              <th>État</th>
+            </tr>
+          </thead>
+          <tbody id="fvgTable">
+            <tr><td colspan="5">Analyse en cours...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="fakeout" class="grid grid-2">
+    <div class="card">
+      <h2>Détection des faux mouvements</h2>
+      <div id="fakeoutSignal" class="badge wait">Observation</div>
+      <p id="fakeoutText">
+        Le système observe les fausses cassures de supports et de résistances.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Zones à surveiller</h2>
+      <ul>
+        <li>Ancien plus haut récent.</li>
+        <li>Ancien plus bas récent.</li>
+        <li>Order Block proche du prix.</li>
+        <li>Fair Value Gap non comblé.</li>
+        <li>Zone où le volume augmente brutalement.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="image-row">
+    <div class="card">
+      <h2>Objectif de cette plateforme</h2>
+      <p>
+        L’objectif n’est pas seulement d’afficher le cours du Bitcoin.
+        L’objectif est de construire un système intelligent capable d’aider à lire le marché,
+        mesurer le risque, éviter les entrées fragiles et mieux préparer les sorties.
+      </p>
+      <p>
+        La décision finale appartient toujours à l’utilisateur.
+      </p>
+    </div>
+
+    <img src="img/bitcoin-wallet.jfif" alt="Portefeuille Bitcoin" onerror="this.style.display='none';" />
+  </section>
+
+  <section id="ressources" class="card">
+    <h2>Ressources Bitcoin et cryptomonnaies</h2>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Into The Cryptoverse</h3>
+        <p>Ressource d’analyse du marché des cryptomonnaies.</p>
+        <a href="https://intothecryptoverse.com/" target="_blank" style="color:var(--blue);">Accéder à la ressource</a>
+      </div>
+
+      <div class="card">
+        <h3>CoinGlass</h3>
+        <p>Plateforme utile pour observer les liquidations, contrats à terme et données de marché.</p>
+        <a href="https://www.coinglass.com/" target="_blank" style="color:var(--blue);">Accéder à la ressource</a>
+      </div>
+
+      <div class="card">
+        <h3>Binance API</h3>
+        <p>Source utilisée pour les bougies, le prix et le volume BTC / USDT.</p>
+        <a href="https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250" target="_blank" style="color:var(--blue);">Voir les données</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="journal" class="card">
+    <h2>Journal des signaux</h2>
+    <div id="journalBox" class="log">Aucun signal enregistré pour le moment.</div>
+  </section>
+
+  <section class="card">
+    <h2>Remarque importante</h2>
+    <p>
+      Cette plateforme est un outil pédagogique et indicatif.
+      Elle ne constitue pas un conseil financier.
+      Le Bitcoin reste un actif très volatil.
+    </p>
+    <p>
+      Un signal technique peut être faux. Un mouvement peut être brutal. Une bonne gestion du risque
+      reste indispensable.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  Bitcoin Monitor — Page éducative et indicative seulement.<br />
+  Page développée par Hocine Korichi. Avril 2026. Tous droits réservés.
+</footer>
+
+<script>
+  const API_KLINES = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250";
+  const API_PRICE = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
+
+  let chart;
+  let candleSeries;
+  let ma50Series;
+  let ma100Series;
+  let ma200Series;
+
+  let pause = false;
+  let timer = null;
+  let dernierSignal = "";
+  let journal = [];
+
+  function formatPrix(v) {
+    if (!isFinite(v)) return "---";
+    return Number(v).toLocaleString("fr-CA", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }) + " USDT";
+  }
+
+  function formatNombre(v, dec = 2) {
+    if (!isFinite(v)) return "---";
+    return Number(v).toLocaleString("fr-CA", {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec
+    });
+  }
+
+  function lireNombre(id, defaut) {
+    const val = parseFloat(document.getElementById(id).value);
+    return isFinite(val) ? val : defaut;
+  }
+
+  function initChart() {
+    const conteneur = document.getElementById("chart");
+
+    chart = LightweightCharts.createChart(conteneur, {
+      layout: {
+        background: { color: "#020617" },
+        textColor: "#d1d5db"
+      },
+      grid: {
+        vertLines: { color: "#1f2937" },
+        horzLines: { color: "#1f2937" }
+      },
+      crosshair: {
+        mode: LightweightCharts.CrosshairMode.Normal
+      },
+      rightPriceScale: {
+        borderColor: "#334155"
+      },
+      timeScale: {
+        borderColor: "#334155",
+        timeVisible: true,
+        secondsVisible: false
+      }
+    });
+
+    candleSeries = chart.addCandlestickSeries({
+      upColor: "#22c55e",
+      downColor: "#ef4444",
+      borderUpColor: "#22c55e",
+      borderDownColor: "#ef4444",
+      wickUpColor: "#22c55e",
+      wickDownColor: "#ef4444"
+    });
+
+    ma50Series = chart.addLineSeries({
+      color: "#38bdf8",
+      lineWidth: 2,
+      title: "MA50"
+    });
+
+    ma100Series = chart.addLineSeries({
+      color: "#facc15",
+      lineWidth: 2,
+      title: "MA100"
+    });
+
+    ma200Series = chart.addLineSeries({
+      color: "#a855f7",
+      lineWidth: 2,
+      title: "MA200"
+    });
+
+    window.addEventListener("resize", () => {
+      chart.applyOptions({ width: conteneur.clientWidth });
+    });
+  }
+
+  function convertirBougies(data) {
+    return data.map(k => ({
+      time: Math.floor(k[0] / 1000),
+      open: parseFloat(k[1]),
+      high: parseFloat(k[2]),
+      low: parseFloat(k[3]),
+      close: parseFloat(k[4]),
+      volume: parseFloat(k[5])
+    }));
+  }
+
+  function moyenneMobile(bougies, periode) {
+    const resultat = [];
+    for (let i = periode - 1; i < bougies.length; i++) {
+      const portion = bougies.slice(i - periode + 1, i + 1);
+      const somme = portion.reduce((s, b) => s + b.close, 0);
+      resultat.push({
+        time: bougies[i].time,
+        value: somme / periode
+      });
+    }
+    return resultat;
+  }
+
+  function calculRSI(bougies, periode = 14) {
+    if (bougies.length <= periode) return null;
+
+    let gains = 0;
+    let pertes = 0;
+
+    for (let i = 1; i <= periode; i++) {
+      const diff = bougies[i].close - bougies[i - 1].close;
+      if (diff >= 0) gains += diff;
+      else pertes -= diff;
+    }
+
+    let gainMoyen = gains / periode;
+    let perteMoyenne = pertes / periode;
+
+    for (let i = periode + 1; i < bougies.length; i++) {
+      const diff = bougies[i].close - bougies[i - 1].close;
+      const gain = diff > 0 ? diff : 0;
+      const perte = diff < 0 ? -diff : 0;
+
+      gainMoyen = ((gainMoyen * (periode - 1)) + gain) / periode;
+      perteMoyenne = ((perteMoyenne * (periode - 1)) + perte) / periode;
+    }
+
+    if (perteMoyenne === 0) return 100;
+
+    const rs = gainMoyen / perteMoyenne;
+    return 100 - (100 / (1 + rs));
+  }
+
+  function ema(valeurs, periode) {
+    const k = 2 / (periode + 1);
+    let emaValeur = valeurs[0];
+
+    for (let i = 1; i < valeurs.length; i++) {
+      emaValeur = valeurs[i] * k + emaValeur * (1 - k);
+    }
+
+    return emaValeur;
+  }
+
+  function calculMACD(bougies) {
+    if (bougies.length < 35) return null;
+
+    const closes = bougies.map(b => b.close);
+    const macd = ema(closes, 12) - ema(closes, 26);
+
+    const macdSeries = [];
+    for (let i = 26; i < closes.length; i++) {
+      const part = closes.slice(0, i + 1);
+      macdSeries.push(ema(part, 12) - ema(part, 26));
+    }
+
+    const signal = ema(macdSeries, 9);
+    const histogramme = macd - signal;
+
+    return { macd, signal, histogramme };
+  }
+
+  function calculATR(bougies, periode = 14) {
+    if (bougies.length <= periode) return null;
+
+    const trs = [];
+
+    for (let i = 1; i < bougies.length; i++) {
+      const h = bougies[i].high;
+      const l = bougies[i].low;
+      const pc = bougies[i - 1].close;
+
+      const tr = Math.max(
+        h - l,
+        Math.abs(h - pc),
+        Math.abs(l - pc)
+      );
+
+      trs.push(tr);
+    }
+
+    const derniers = trs.slice(-periode);
+    return derniers.reduce((s, v) => s + v, 0) / periode;
+  }
+
+  function detecterOrderBlocks(bougies, prixActuel) {
+    const zones = [];
+
+    for (let i = 3; i < bougies.length - 2; i++) {
+      const b = bougies[i];
+      const suivante = bougies[i + 1];
+
+      const corps = Math.abs(b.close - b.open);
+      const amplitude = b.high - b.low;
+      if (amplitude === 0) continue;
+
+      const corpsFort = corps / amplitude > 0.55;
+      const impulsionSuivante = Math.abs(suivante.close - suivante.open) > amplitude * 0.75;
+
+      if (corpsFort && impulsionSuivante) {
+        const type = b.close > b.open ? "Acheteur" : "Vendeur";
+        const bas = Math.min(b.open, b.close);
+        const haut = Math.max(b.open, b.close);
+        const distance = Math.abs(prixActuel - ((bas + haut) / 2));
+        const importance = distance < prixActuel * 0.004 ? "Forte" : distance < prixActuel * 0.01 ? "Moyenne" : "Faible";
+
+        zones.push({ type, bas, haut, distance, importance });
+      }
+    }
+
+    return zones
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 5);
+  }
+
+  function detecterFVG(bougies, prixActuel) {
+    const zones = [];
+
+    for (let i = 2; i < bougies.length; i++) {
+      const a = bougies[i - 2];
+      const c = bougies[i];
+
+      if (a.high < c.low) {
+        const bas = a.high;
+        const haut = c.low;
+        const distance = Math.abs(prixActuel - ((bas + haut) / 2));
+        const comble = prixActuel >= bas && prixActuel <= haut ? "En cours" : "Ouvert";
+
+        zones.push({
+          type: "Haussier",
+          bas,
+          haut,
+          distance,
+          etat: comble
+        });
+      }
+
+      if (a.low > c.high) {
+        const bas = c.high;
+        const haut = a.low;
+        const distance = Math.abs(prixActuel - ((bas + haut) / 2));
+        const comble = prixActuel >= bas && prixActuel <= haut ? "En cours" : "Ouvert";
+
+        zones.push({
+          type: "Baissier",
+          bas,
+          haut,
+          distance,
+          etat: comble
+        });
+      }
+    }
+
+    return zones
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 5);
+  }
+
+  function detecterFakeout(bougies) {
+    if (bougies.length < 30) {
+      return {
+        niveau: "Observation",
+        classe: "wait",
+        texte: "Données insuffisantes pour détecter un faux mouvement."
+      };
+    }
+
+    const derniere = bougies[bougies.length - 1];
+    const precedentes = bougies.slice(-25, -1);
+
+    const plusHaut = Math.max(...precedentes.map(b => b.high));
+    const plusBas = Math.min(...precedentes.map(b => b.low));
+
+    const mecheHaute = derniere.high - Math.max(derniere.open, derniere.close);
+    const mecheBasse = Math.min(derniere.open, derniere.close) - derniere.low;
+    const amplitude = derniere.high - derniere.low;
+
+    if (amplitude <= 0) {
+      return {
+        niveau: "Observation",
+        classe: "wait",
+        texte: "Aucun mouvement significatif détecté."
+      };
+    }
+
+    if (derniere.high > plusHaut && derniere.close < plusHaut && mecheHaute / amplitude > 0.45) {
+      return {
+        niveau: "Risque de piège acheteur",
+        classe: "sell",
+        texte: "Le prix a dépassé un sommet récent avant de revenir sous ce niveau. Cela peut indiquer une fausse cassure haussière."
+      };
+    }
+
+    if (derniere.low < plusBas && derniere.close > plusBas && mecheBasse / amplitude > 0.45) {
+      return {
+        niveau: "Risque de piège vendeur",
+        classe: "buy",
+        texte: "Le prix a cassé un creux récent avant de revenir au-dessus. Cela peut indiquer une fausse cassure baissière."
+      };
+    }
+
+    return {
+      niveau: "Observation",
+      classe: "wait",
+      texte: "Aucun faux mouvement évident détecté sur les dernières bougies."
+    };
+  }
+
+  function calculerDecision(bougies, rsi, macd, atr, ma50, ma100, ma200, obZones, fvgZones, fakeout) {
+    const prix = bougies[bougies.length - 1].close;
+
+    const derniereMa50 = ma50.length ? ma50[ma50.length - 1].value : null;
+    const derniereMa100 = ma100.length ? ma100[ma100.length - 1].value : null;
+    const derniereMa200 = ma200.length ? ma200[ma200.length - 1].value : null;
+
+    let score = 0;
+    let raisons = [];
+
+    if (derniereMa50 && derniereMa100 && derniereMa200) {
+      if (prix > derniereMa50 && derniereMa50 > derniereMa100 && derniereMa100 > derniereMa200) {
+        score += 3;
+        raisons.push("tendance haussière structurée");
+      } else if (prix < derniereMa50 && derniereMa50 < derniereMa100 && derniereMa100 < derniereMa200) {
+        score -= 3;
+        raisons.push("tendance baissière structurée");
+      } else {
+        raisons.push("tendance encore hésitante");
+      }
+    }
+
+    if (rsi !== null) {
+      const rsiBas = lireNombre("rsiBas", 35);
+      const rsiHaut = lireNombre("rsiHaut", 70);
+
+      if (rsi < rsiBas) {
+        score += 1;
+        raisons.push("RSI en zone basse");
+      } else if (rsi > rsiHaut) {
+        score -= 1;
+        raisons.push("RSI élevé");
+      } else {
+        raisons.push("RSI neutre");
+      }
+    }
+
+    if (macd) {
+      if (macd.histogramme > 0) {
+        score += 1;
+        raisons.push("MACD positif");
+      } else {
+        score -= 1;
+        raisons.push("MACD négatif");
+      }
+    }
+
+    if (fakeout.niveau.includes("piège acheteur")) {
+      score -= 2;
+      raisons.push("risque de fausse cassure haussière");
+    }
+
+    if (fakeout.niveau.includes("piège vendeur")) {
+      score += 1;
+      raisons.push("possible rejet baissier");
+    }
+
+    let signal = "ATTENDRE";
+    let classe = "wait";
+
+    if (score >= 4) {
+      signal = "ACHAT PRUDENT";
+      classe = "buy";
+    } else if (score <= -4) {
+      signal = "VENTE PRUDENTE";
+      classe = "sell";
+    }
+
+    const confiance = Math.min(95, Math.max(20, 50 + score * 10));
+
+    return {
+      signal,
+      classe,
+      confiance,
+      lecture: "Lecture actuelle : " + raisons.join(", ") + "."
+    };
+  }
+
+  function calculerRisque(prix, atr, decision) {
+    const capital = lireNombre("capital", 1000);
+    const risquePourcent = lireNombre("risquePourcent", 1);
+    const multiplicateurAtr = lireNombre("multiplicateurAtr", 1.8);
+    const ratioGain = lireNombre("ratioGain", 2);
+
+    const risqueMax = capital * (risquePourcent / 100);
+    const distanceStop = atr ? atr * multiplicateurAtr : prix * 0.01;
+
+    let stopLoss, takeProfit, breakEven;
+
+    if (decision.signal.includes("ACHAT")) {
+      stopLoss = prix - distanceStop;
+      takeProfit = prix + distanceStop * ratioGain;
+      breakEven = prix + distanceStop * 0.8;
+    } else if (decision.signal.includes("VENTE")) {
+      stopLoss = prix + distanceStop;
+      takeProfit = prix - distanceStop * ratioGain;
+      breakEven = prix - distanceStop * 0.8;
+    } else {
+      stopLoss = prix - distanceStop;
+      takeProfit = prix + distanceStop * ratioGain;
+      breakEven = prix + distanceStop;
+    }
+
+    const taillePosition = distanceStop > 0 ? risqueMax / distanceStop : 0;
+
+    return {
+      capital,
+      risqueMax,
+      stopLoss,
+      takeProfit,
+      breakEven,
+      taillePosition,
+      distanceStop
+    };
+  }
+
+  function afficherZonesOB(zones) {
+    const tbody = document.getElementById("obTable");
+
+    if (!zones.length) {
+      tbody.innerHTML = "<tr><td colspan='5'>Aucun Order Block clair détecté.</td></tr>";
+      return;
+    }
+
+    tbody.innerHTML = zones.map(z => `
+      <tr>
+        <td>${z.type}</td>
+        <td>${formatPrix(z.bas)}</td>
+        <td>${formatPrix(z.haut)}</td>
+        <td>${formatNombre(z.distance, 2)} USDT</td>
+        <td>${z.importance}</td>
+      </tr>
+    `).join("");
+  }
+
+  function afficherZonesFVG(zones) {
+    const tbody = document.getElementById("fvgTable");
+
+    if (!zones.length) {
+      tbody.innerHTML = "<tr><td colspan='5'>Aucun FVG clair détecté.</td></tr>";
+      return;
+    }
+
+    tbody.innerHTML = zones.map(z => `
+      <tr>
+        <td>${z.type}</td>
+        <td>${formatPrix(z.bas)}</td>
+        <td>${formatPrix(z.haut)}</td>
+        <td>${formatNombre(z.distance, 2)} USDT</td>
+        <td>${z.etat}</td>
+      </tr>
+    `).join("");
+  }
+
+  function ajouterJournal(signal, confiance, prix) {
+    const maintenant = new Date().toLocaleTimeString("fr-CA");
+
+    const texte = `${maintenant} — ${signal} — Confiance : ${confiance}% — Prix : ${formatPrix(prix)}`;
+
+    if (signal !== dernierSignal) {
+      journal.unshift(texte);
+      dernierSignal = signal;
+    }
+
+    journal = journal.slice(0, 20);
+
+    document.getElementById("journalBox").innerHTML = journal.length
+      ? journal.map(l => `<div>${l}</div>`).join("")
+      : "Aucun signal enregistré pour le moment.";
+  }
+
+  function verifierAlertes(prix) {
+    const haut = parseFloat(document.getElementById("alerteHaut").value);
+    const bas = parseFloat(document.getElementById("alerteBas").value);
+
+    if (isFinite(haut) && prix >= haut) {
+      ajouterJournal("ALERTE HAUTE ATTEINTE", 100, prix);
+    }
+
+    if (isFinite(bas) && prix <= bas) {
+      ajouterJournal("ALERTE BASSE ATTEINTE", 100, prix);
+    }
+  }
+
+  async function actualiser() {
+    if (pause) return;
+
+    try {
+      const [klinesRes, priceRes] = await Promise.all([
+        fetch(API_KLINES),
+        fetch(API_PRICE)
+      ]);
+
+      if (!klinesRes.ok || !priceRes.ok) {
+        throw new Error("Erreur API");
+      }
+
+      const klines = await klinesRes.json();
+      const priceData = await priceRes.json();
+
+      const bougies = convertirBougies(klines);
+      const prixActuel = parseFloat(priceData.price);
+
+      const ma50 = moyenneMobile(bougies, 50);
+      const ma100 = moyenneMobile(bougies, 100);
+      const ma200 = moyenneMobile(bougies, 200);
+
+      candleSeries.setData(bougies);
+      ma50Series.setData(ma50);
+      ma100Series.setData(ma100);
+      ma200Series.setData(ma200);
+
+      chart.timeScale().fitContent();
+
+      const ouverture = bougies[0].open;
+      const variation = ((prixActuel - ouverture) / ouverture) * 100;
+      const prixMax = Math.max(...bougies.map(b => b.high));
+      const prixMin = Math.min(...bougies.map(b => b.low));
+      const derniereBougie = bougies[bougies.length - 1];
+
+      const rsi = calculRSI(bougies);
+      const macd = calculMACD(bougies);
+      const atr = calculATR(bougies);
+
+      const obZones = detecterOrderBlocks(bougies, prixActuel);
+      const fvgZones = detecterFVG(bougies, prixActuel);
+      const fakeout = detecterFakeout(bougies);
+
+      const decision = calculerDecision(
+        bougies,
+        rsi,
+        macd,
+        atr,
+        ma50,
+        ma100,
+        ma200,
+        obZones,
+        fvgZones,
+        fakeout
+      );
+
+      const risque = calculerRisque(prixActuel, atr, decision);
+
+      document.getElementById("prix").textContent = formatPrix(prixActuel);
+      document.getElementById("variation").textContent = formatNombre(variation, 2) + " %";
+      document.getElementById("variation").className = variation >= 0 ? "value success" : "value danger";
+      document.getElementById("volume").textContent = formatNombre(derniereBougie.volume, 4);
+      document.getElementById("prixMax").textContent = formatPrix(prixMax);
+      document.getElementById("prixMin").textContent = formatPrix(prixMin);
+      document.getElementById("maj").textContent = new Date().toLocaleTimeString("fr-CA");
+
+      document.getElementById("rsi").textContent = rsi ? formatNombre(rsi, 2) : "---";
+      document.getElementById("rsiText").textContent =
+        rsi > 70 ? "Zone élevée : prudence." :
+        rsi < 35 ? "Zone basse : possible rebond, à confirmer." :
+        "Zone neutre.";
+
+      document.getElementById("macd").textContent = macd ? formatNombre(macd.histogramme, 2) : "---";
+      document.getElementById("macdText").textContent =
+        macd && macd.histogramme > 0 ? "Dynamique positive." :
+        macd && macd.histogramme < 0 ? "Dynamique négative." :
+        "Dynamique neutre.";
+
+      const derniereMa50 = ma50.length ? ma50[ma50.length - 1].value : null;
+      const derniereMa100 = ma100.length ? ma100[ma100.length - 1].value : null;
+      const derniereMa200 = ma200.length ? ma200[ma200.length - 1].value : null;
+
+      document.getElementById("maResume").textContent =
+        derniereMa50 && derniereMa100 && derniereMa200
+          ? `${formatNombre(derniereMa50, 0)} / ${formatNombre(derniereMa100, 0)} / ${formatNombre(derniereMa200, 0)}`
+          : "---";
+
+      document.getElementById("atr").textContent = atr ? formatNombre(atr, 2) + " USDT" : "---";
+
+      const signalEl = document.getElementById("signal");
+      signalEl.textContent = decision.signal;
+      signalEl.className = "badge " + decision.classe;
+
+      document.getElementById("confiance").textContent = decision.confiance + " %";
+      document.getElementById("lectureMarche").textContent = decision.lecture;
+
+      document.getElementById("riskCapital").textContent = formatNombre(risque.capital, 2) + " USDT";
+      document.getElementById("riskMax").textContent = formatNombre(risque.risqueMax, 2) + " USDT";
+      document.getElementById("riskStop").textContent = formatPrix(risque.stopLoss);
+      document.getElementById("riskTp").textContent = formatPrix(risque.takeProfit);
+      document.getElementById("riskBe").textContent = formatPrix(risque.breakEven);
+      document.getElementById("riskPosition").textContent = formatNombre(risque.taillePosition, 6) + " BTC environ";
+
+      afficherZonesOB(obZones);
+      afficherZonesFVG(fvgZones);
+
+      const fakeoutEl = document.getElementById("fakeoutSignal");
+      fakeoutEl.textContent = fakeout.niveau;
+      fakeoutEl.className = "badge " + fakeout.classe;
+      document.getElementById("fakeoutText").textContent = fakeout.texte;
+
+      verifierAlertes(prixActuel);
+      ajouterJournal(decision.signal, decision.confiance, prixActuel);
+
+    } catch (erreur) {
+      document.getElementById("prix").textContent = "Erreur de chargement";
+      document.getElementById("lectureMarche").textContent =
+        "Impossible de charger les données. Vérifie la connexion ou l’accès à l’API Binance.";
+      console.error(erreur);
+    }
+  }
+
+  function basculerPause() {
+    pause = !pause;
+    document.getElementById("pauseBtn").textContent = pause ? "Reprendre" : "Mettre en pause";
+  }
+
+  function demarrer() {
+    initChart();
+    actualiser();
+
+    timer = setInterval(() => {
+      actualiser();
+    }, 20000);
+  }
+
+  demarrer();
+</script>
+
+</body>
+</html>
