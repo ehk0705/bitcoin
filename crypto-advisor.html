@@ -264,6 +264,20 @@
       max-height: 280px;
     }
 
+    .countdown-box {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(250, 204, 21, 0.08);
+      color: var(--text);
+    }
+
+    #countdownText {
+      color: var(--yellow);
+      font-size: 1.25rem;
+    }
+
     footer {
       padding: 22px;
       text-align: center;
@@ -354,7 +368,18 @@
 
     <div class="card">
       <h3>Contrôle</h3>
-      <div>Rafraîchissement : <strong id="refreshText">15 secondes</strong></div>
+
+      <div>
+        Rafraîchissement :
+        <strong id="refreshText">15 secondes</strong>
+      </div>
+
+      <div class="countdown-box">
+        Prochain rafraîchissement dans :
+        <strong id="countdownText">15</strong>
+        <span id="countdownUnit">secondes</span>
+      </div>
+
       <button id="pauseBtn" onclick="basculerPause()">Mettre en pause</button>
     </div>
   </section>
@@ -471,7 +496,7 @@
     </div>
 
     <div style="margin-top:15px;">
-      <button onclick="actualiser()">Appliquer les paramètres</button>
+      <button onclick="actualiserManuellement()">Appliquer les paramètres</button>
     </div>
   </section>
 
@@ -664,6 +689,8 @@
   const API_KLINES = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250";
   const API_PRICE = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
 
+  const INTERVALLE_RAFRAICHISSEMENT = 15;
+
   let chart;
   let candleSeries;
   let ma50Series;
@@ -671,9 +698,12 @@
   let ma200Series;
 
   let pause = false;
-  let timer = null;
+  let timerCompteRebours = null;
+  let compteur = INTERVALLE_RAFRAICHISSEMENT;
+
   let dernierSignal = "";
   let journal = [];
+  let actualisationEnCours = false;
 
   function formatPrix(v) {
     if (!isFinite(v)) return "---";
@@ -694,6 +724,27 @@
   function lireNombre(id, defaut) {
     const val = parseFloat(document.getElementById(id).value);
     return isFinite(val) ? val : defaut;
+  }
+
+  function mettreAJourCompteRebours() {
+    const countdownText = document.getElementById("countdownText");
+    const countdownUnit = document.getElementById("countdownUnit");
+
+    if (!countdownText || !countdownUnit) return;
+
+    if (pause) {
+      countdownText.textContent = "pause";
+      countdownUnit.textContent = "";
+      return;
+    }
+
+    countdownText.textContent = compteur;
+    countdownUnit.textContent = compteur <= 1 ? "seconde" : "secondes";
+  }
+
+  function reinitialiserCompteRebours() {
+    compteur = INTERVALLE_RAFRAICHISSEMENT;
+    mettreAJourCompteRebours();
   }
 
   function initChart() {
@@ -1167,7 +1218,9 @@
   }
 
   async function actualiser() {
-    if (pause) return;
+    if (pause || actualisationEnCours) return;
+
+    actualisationEnCours = true;
 
     try {
       const [klinesRes, priceRes] = await Promise.all([
@@ -1286,21 +1339,56 @@
       document.getElementById("lectureMarche").textContent =
         "Impossible de charger les données. Vérifie la connexion ou l’accès à l’API Binance.";
       console.error(erreur);
+    } finally {
+      actualisationEnCours = false;
+      reinitialiserCompteRebours();
     }
+  }
+
+  function actualiserManuellement() {
+    reinitialiserCompteRebours();
+    actualiser();
   }
 
   function basculerPause() {
     pause = !pause;
-    document.getElementById("pauseBtn").textContent = pause ? "Reprendre" : "Mettre en pause";
+
+    document.getElementById("pauseBtn").textContent = pause
+      ? "Reprendre"
+      : "Mettre en pause";
+
+    mettreAJourCompteRebours();
+  }
+
+  function demarrerCompteRebours() {
+    mettreAJourCompteRebours();
+
+    timerCompteRebours = setInterval(() => {
+      if (pause) {
+        mettreAJourCompteRebours();
+        return;
+      }
+
+      compteur--;
+
+      if (compteur <= 0) {
+        compteur = 0;
+        mettreAJourCompteRebours();
+        actualiser();
+        return;
+      }
+
+      mettreAJourCompteRebours();
+    }, 1000);
   }
 
   function demarrer() {
+    document.getElementById("refreshText").textContent =
+      INTERVALLE_RAFRAICHISSEMENT + " secondes";
+
     initChart();
     actualiser();
-
-    timer = setInterval(() => {
-      actualiser();
-    }, 15000);
+    demarrerCompteRebours();
   }
 
   demarrer();
