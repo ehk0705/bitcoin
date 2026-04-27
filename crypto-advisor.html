@@ -278,6 +278,46 @@
       font-size: 1.25rem;
     }
 
+    .code-box {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      overflow-x: auto;
+      color: #d1d5db;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      white-space: pre;
+    }
+
+    .tradingview-box {
+      border-left: 4px solid var(--blue);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .pine-box {
+      border-left: 4px solid var(--purple);
+      background: rgba(168, 85, 247, 0.08);
+    }
+
+    .link-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--blue);
+      text-decoration: none;
+      background: #020617;
+      font-weight: bold;
+    }
+
+    .link-button:hover {
+      color: var(--yellow);
+      background: #111827;
+    }
+
     footer {
       padding: 22px;
       text-align: center;
@@ -297,6 +337,10 @@
 
       header h1 {
         font-size: 1.55rem;
+      }
+
+      table {
+        min-width: 620px;
       }
     }
   </style>
@@ -320,6 +364,7 @@
   <a href="#risque">Risque</a>
   <a href="#zones">Zones OB / FVG</a>
   <a href="#fakeout">Faux mouvements</a>
+  <a href="#tradingview">TradingView</a>
   <a href="#ressources">Ressources</a>
   <a href="#journal">Journal</a>
   <a href="index.html">Retour</a>  
@@ -636,6 +681,93 @@
     <img src="img/bitcoin-wallet.jfif" alt="Portefeuille Bitcoin" onerror="this.style.display='none';" />
   </section>
 
+  <section id="tradingview" class="card">
+    <h2>TradingView et Pine Editor</h2>
+
+    <p>
+      TradingView est une plateforme très utilisée pour analyser les marchés financiers avec des graphiques avancés,
+      des indicateurs techniques et des scripts personnalisés. Pine Editor permet de créer ses propres indicateurs
+      ou stratégies avec le langage Pine Script.
+    </p>
+
+    <div class="grid grid-3">
+      <div class="card tradingview-box">
+        <h3>TradingView</h3>
+        <p>
+          Utile pour observer le Bitcoin sur plusieurs unités de temps : 1 minute, 5 minutes,
+          15 minutes, 1 heure, 4 heures ou journalier.
+        </p>
+        <p class="small">
+          Il permet de comparer les tendances, tracer les supports, résistances,
+          canaux, volumes et zones de retournement.
+        </p>
+        <a class="link-button" href="https://fr.tradingview.com/symbols/BTCUSDT/" target="_blank">
+          Ouvrir BTC / USDT sur TradingView
+        </a>
+      </div>
+
+      <div class="card pine-box">
+        <h3>Pine Editor</h3>
+        <p>
+          Pine Editor sert à écrire des scripts d’analyse technique.
+          On peut y programmer des alertes, des signaux, des moyennes mobiles,
+          un RSI, un MACD ou des conditions d’achat et de vente.
+        </p>
+        <p class="small">
+          Le script doit être testé avec prudence. Un bon résultat passé ne garantit jamais un bon résultat futur.
+        </p>
+        <a class="link-button" href="https://fr.tradingview.com/pine-script-docs/" target="_blank">
+          Documentation Pine Script
+        </a>
+      </div>
+
+      <div class="card">
+        <h3>Utilisation avec cette page</h3>
+        <p>
+          Cette page affiche les données en direct avec Binance. TradingView peut servir de complément
+          pour vérifier les signaux visuellement avant toute décision.
+        </p>
+        <ul>
+          <li>Confirmer la tendance générale.</li>
+          <li>Vérifier les cassures de supports et résistances.</li>
+          <li>Comparer les signaux RSI, MACD et moyennes mobiles.</li>
+          <li>Éviter les décisions prises sur une seule unité de temps.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>Exemple simple de script Pine Editor</h3>
+      <p class="small">
+        Ce script affiche deux moyennes mobiles et donne un signal indicatif lorsque la moyenne courte croise la moyenne longue.
+      </p>
+
+      <div class="code-box">
+//@version=5
+indicator("Signal simple BTC - MA 20 / MA 50", overlay=true)
+
+ma20 = ta.sma(close, 20)
+ma50 = ta.sma(close, 50)
+
+plot(ma20, color=color.orange, linewidth=2, title="MA 20")
+plot(ma50, color=color.blue, linewidth=2, title="MA 50")
+
+achat = ta.crossover(ma20, ma50)
+vente = ta.crossunder(ma20, ma50)
+
+plotshape(achat, title="Signal achat", location=location.belowbar, color=color.green, style=shape.labelup, text="ACHAT")
+plotshape(vente, title="Signal vente", location=location.abovebar, color=color.red, style=shape.labeldown, text="VENTE")
+
+alertcondition(achat, title="Alerte achat", message="Croisement haussier MA20 / MA50")
+alertcondition(vente, title="Alerte vente", message="Croisement baissier MA20 / MA50")
+      </div>
+
+      <p class="warning">
+        Attention : ce script est seulement un exemple pédagogique. Il ne constitue pas une stratégie complète de trading.
+      </p>
+    </div>
+  </section>
+
   <section id="ressources" class="card">
     <h2>Ressources Bitcoin et cryptomonnaies</h2>
 
@@ -656,6 +788,24 @@
         <h3>Binance API</h3>
         <p>Source utilisée pour les bougies, le prix et le volume BTC / USDT.</p>
         <a href="https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=250" target="_blank" style="color:var(--blue);">Voir les données</a>
+      </div>
+
+      <div class="card">
+        <h3>TradingView</h3>
+        <p>Graphiques avancés, indicateurs techniques, alertes et Pine Editor.</p>
+        <a href="https://fr.tradingview.com/" target="_blank" style="color:var(--blue);">Accéder à TradingView</a>
+      </div>
+
+      <div class="card">
+        <h3>Pine Script</h3>
+        <p>Documentation officielle pour créer des indicateurs et stratégies sur TradingView.</p>
+        <a href="https://fr.tradingview.com/pine-script-docs/" target="_blank" style="color:var(--blue);">Lire la documentation</a>
+      </div>
+
+      <div class="card">
+        <h3>Graphique BTC / USDT</h3>
+        <p>Vue directe du Bitcoin contre USDT sur TradingView.</p>
+        <a href="https://fr.tradingview.com/symbols/BTCUSDT/" target="_blank" style="color:var(--blue);">Voir BTC / USDT</a>
       </div>
     </div>
   </section>
