@@ -137,6 +137,7 @@
 
     section {
       margin-bottom: 26px;
+      scroll-margin-top: 160px;
     }
 
     .card {
@@ -151,12 +152,35 @@
       margin: 0 0 10px;
       font-size: 1.45rem;
       line-height: 1.25;
+      color: #ffffff;
     }
 
     .section-subtitle {
       margin: 0 0 18px;
       color: #cfcfcf;
       font-size: 0.98rem;
+    }
+
+    .intro-page {
+      background: linear-gradient(135deg, #111827, #f7931a);
+      border-radius: 18px;
+      padding: 30px 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .intro-page h1 {
+      margin: 0 0 14px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .intro-page p {
+      max-width: 850px;
+      margin: auto;
+      color: #fff;
+      font-size: 1.05rem;
     }
 
     .btc-wrapper {
@@ -269,6 +293,10 @@
       grid-template-columns: 1fr;
     }
 
+    .grid-2 {
+      grid-template-columns: 1fr;
+    }
+
     .card-image {
       margin: -16px -16px 14px;
     }
@@ -284,11 +312,22 @@
       margin-top: 0;
       margin-bottom: 10px;
       font-size: 1.15rem;
+      color: #f7b955;
     }
 
     .card p {
       margin-top: 0;
       color: #dddddd;
+    }
+
+    .card ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+      color: #dddddd;
+    }
+
+    .card li {
+      margin-bottom: 8px;
     }
 
     .tags {
@@ -306,6 +345,113 @@
       border: 1px solid rgba(247, 147, 26, 0.22);
       color: #ffd7a4;
       font-size: 0.85rem;
+    }
+
+    .info-box {
+      background: rgba(247, 147, 26, 0.1);
+      border-left: 5px solid #f7931a;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      color: #f5f5f5;
+    }
+
+    .warning-box {
+      background: rgba(220, 38, 38, 0.12);
+      border-left: 5px solid #ef4444;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      color: #f5f5f5;
+    }
+
+    .success-box {
+      background: rgba(34, 197, 94, 0.1);
+      border-left: 5px solid #22c55e;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      color: #f5f5f5;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      background: #11141b;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f7931a;
+      color: #111;
+      font-weight: 700;
+    }
+
+    td {
+      color: #e0e0e0;
+    }
+
+    .pedago-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .pedago-item {
+      padding: 14px;
+      background: #11141b;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pedago-item strong {
+      color: #f7931a;
+    }
+
+    .tradingview-link-section {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 24px 14px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .tradingview-link-section h2 {
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .tradingview-link-section p {
+      color: #d8d8d8;
+    }
+
+    .tradingview-link-section a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #111;
+      background: #f7931a;
+      padding: 12px 16px;
+      border-radius: 10px;
     }
 
     footer {
@@ -354,6 +500,14 @@
       .grid-3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .pedago-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (min-width: 960px) {
@@ -398,7 +552,8 @@
         font-size: 1.28rem;
       }
 
-      .hero h1 {
+      .hero h1,
+      .intro-page h1 {
         font-size: 1.65rem;
       }
 
@@ -410,29 +565,11 @@
         height: 210px;
       }
     }
-	
-.tradingview-link-section {
-  margin: 40px 0;
-  padding: 24px;
-  text-align: center;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
-
-.tradingview-link-section h2 {
-  margin-bottom: 12px;
-}
-
-.tradingview-link-section a {
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-  font-weight: bold;
-}
-	
   </style>
 </head>
+
 <body>
+
 <header>
   <nav class="navbar">
     <div class="logo">CRYPTO<span>MANIE - Hocine Korichi</span></div>
@@ -443,9 +580,14 @@
         <li><a href="satoshi.html">Satoshi & Bitcoin</a></li>
         <li><a href="mining.html">ASIC & Minage</a></li>
         <li><a href="guide.html">Guide & Ressources</a></li>
-		<li><a href="bitcoin-conseiller.html">Bitcoin Conseiller</</li>
-		<li><a href="or-conseiller.html">Or Conseiller</</li>		
-		<li><a href="trading-multi-actifs.html">Trading multi-actifs</</li>	
+        <li><a href="bitcoin-conseiller.html">Bitcoin Conseiller</a></li>
+        <li><a href="or-conseiller.html">Or Conseiller</a></li>
+        <li><a href="trading-multi-actifs.html">Trading multi-actifs</a></li>
+        <li><a href="#definition">Définition</a></li>
+        <li><a href="#fonctionnement">Fonctionnement</a></li>
+        <li><a href="#blockchain">Blockchain</a></li>
+        <li><a href="#risques">Risques</a></li>
+        <li><a href="#lexique">Lexique</a></li>
       </ul>
 
       <div class="nav-extra">
@@ -457,6 +599,260 @@
 </header>
 
 <main>
+
+  <!-- SECTIONS EXPLICATIVES AJOUTÉES AU DÉBUT -->
+
+  <section class="intro-page">
+    <h1>Bitcoin : comprendre avant d’investir</h1>
+    <p>
+      Le Bitcoin est une monnaie numérique décentralisée. Il repose sur une technologie appelée blockchain.
+      Cette page explique simplement son fonctionnement, ses avantages, ses risques et les précautions à prendre.
+    </p>
+  </section>
+
+  <section id="definition">
+    <div class="card">
+      <h2 class="section-title">1. Qu’est-ce que le Bitcoin ?</h2>
+
+      <p>
+        Le Bitcoin est une monnaie numérique créée en 2009. Contrairement aux monnaies classiques,
+        il n’est pas contrôlé par une banque centrale, un gouvernement ou une institution unique.
+      </p>
+
+      <p>
+        Il fonctionne grâce à un réseau mondial d’ordinateurs qui vérifient et enregistrent les transactions.
+      </p>
+
+      <div class="info-box">
+        <strong>Idée simple :</strong> le Bitcoin permet d’échanger de la valeur directement entre deux personnes,
+        sans passer obligatoirement par une banque.
+      </div>
+    </div>
+  </section>
+
+  <section id="fonctionnement">
+    <h2 class="section-title">2. Comment fonctionne le Bitcoin ?</h2>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Une monnaie numérique</h3>
+        <p>
+          Le Bitcoin n’existe pas sous forme de pièces ou de billets. Il existe uniquement sous forme numérique.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Un réseau décentralisé</h3>
+        <p>
+          Aucune autorité centrale ne contrôle seule le réseau. Les transactions sont vérifiées par plusieurs ordinateurs.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Une quantité limitée</h3>
+        <p>
+          Le nombre total de bitcoins est limité à 21 millions. Cette rareté est l’un des éléments qui influencent sa valeur.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="blockchain">
+    <div class="card">
+      <h2 class="section-title">3. La blockchain expliquée simplement</h2>
+
+      <p>
+        La blockchain est un registre numérique public. Elle conserve l’historique des transactions Bitcoin.
+        Chaque transaction validée est regroupée dans un bloc. Les blocs sont ensuite reliés les uns aux autres.
+      </p>
+
+      <h3>Pourquoi est-ce important ?</h3>
+
+      <ul>
+        <li>Les transactions sont visibles publiquement.</li>
+        <li>Les données sont difficiles à modifier après validation.</li>
+        <li>Le réseau ne dépend pas d’un seul serveur central.</li>
+        <li>La confiance repose sur le protocole et non sur une seule institution.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="avantages">
+    <div class="card">
+      <h2 class="section-title">4. Les avantages du Bitcoin</h2>
+
+      <ul>
+        <li><strong>Décentralisation :</strong> le réseau n’est pas contrôlé par une autorité unique.</li>
+        <li><strong>Rareté :</strong> l’offre maximale est limitée à 21 millions de bitcoins.</li>
+        <li><strong>Transferts internationaux :</strong> il permet d’envoyer de la valeur à travers le monde.</li>
+        <li><strong>Transparence :</strong> les transactions sont inscrites dans la blockchain.</li>
+        <li><strong>Autonomie :</strong> chacun peut détenir ses bitcoins dans son propre portefeuille numérique.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="risques">
+    <div class="card">
+      <h2 class="section-title">5. Les risques du Bitcoin</h2>
+
+      <div class="warning-box">
+        Le Bitcoin peut fortement monter, mais il peut aussi fortement baisser.
+        Il ne faut jamais investir de l’argent dont on a besoin pour vivre.
+      </div>
+
+      <ul>
+        <li><strong>Volatilité :</strong> le prix peut varier brutalement.</li>
+        <li><strong>Perte de clé privée :</strong> si la clé est perdue, les bitcoins peuvent devenir inaccessibles.</li>
+        <li><strong>Arnaques :</strong> de faux sites ou de faux conseillers promettent des gains rapides.</li>
+        <li><strong>Réglementation :</strong> les lois peuvent changer selon les pays.</li>
+        <li><strong>Erreur humaine :</strong> une transaction envoyée à la mauvaise adresse est souvent irréversible.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="trading">
+    <div class="card">
+      <h2 class="section-title">6. Bitcoin et trading</h2>
+
+      <p>
+        Le trading consiste à acheter et vendre du Bitcoin pour profiter des variations de prix.
+        Cette activité demande de la discipline, de la prudence et une bonne gestion du risque.
+      </p>
+
+      <h3>Indicateurs souvent utilisés</h3>
+
+      <div class="table-container">
+        <table>
+          <tr>
+            <th>Indicateur</th>
+            <th>Utilité</th>
+          </tr>
+          <tr>
+            <td>RSI</td>
+            <td>Évalue si le marché est potentiellement suracheté ou survendu.</td>
+          </tr>
+          <tr>
+            <td>MACD</td>
+            <td>Aide à repérer des changements de tendance.</td>
+          </tr>
+          <tr>
+            <td>Moyennes mobiles</td>
+            <td>Permettent de suivre la tendance générale du prix.</td>
+          </tr>
+          <tr>
+            <td>Volume</td>
+            <td>Indique la force ou la faiblesse d’un mouvement.</td>
+          </tr>
+          <tr>
+            <td>Supports et résistances</td>
+            <td>Zones où le prix peut réagir fortement.</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="info-box">
+        Un indicateur ne donne jamais une certitude. Il donne seulement une probabilité.
+        Le marché peut toujours faire le contraire de ce qui semble logique.
+      </div>
+    </div>
+  </section>
+
+  <section id="securite">
+    <div class="card">
+      <h2 class="section-title">7. Sécuriser ses bitcoins</h2>
+
+      <p>
+        La sécurité est essentielle. Dans l’univers du Bitcoin, chacun doit protéger ses accès avec sérieux.
+      </p>
+
+      <ul>
+        <li>Utiliser un mot de passe fort et unique.</li>
+        <li>Activer la double authentification quand elle est disponible.</li>
+        <li>Ne jamais partager sa phrase de récupération.</li>
+        <li>Éviter les liens suspects reçus par courriel ou message.</li>
+        <li>Utiliser un portefeuille matériel pour les montants importants.</li>
+        <li>Vérifier plusieurs fois l’adresse avant d’envoyer une transaction.</li>
+      </ul>
+
+      <div class="warning-box">
+        Aucune plateforme sérieuse ne demandera ta phrase de récupération.
+        Si quelqu’un la demande, c’est probablement une tentative de vol.
+      </div>
+    </div>
+  </section>
+
+  <section id="lexique">
+    <div class="card">
+      <h2 class="section-title">8. Lexique simple du Bitcoin</h2>
+
+      <div class="table-container">
+        <table>
+          <tr>
+            <th>Terme</th>
+            <th>Définition</th>
+          </tr>
+          <tr>
+            <td>BTC</td>
+            <td>Symbole du Bitcoin.</td>
+          </tr>
+          <tr>
+            <td>Blockchain</td>
+            <td>Registre numérique qui conserve les transactions.</td>
+          </tr>
+          <tr>
+            <td>Portefeuille</td>
+            <td>Outil permettant de recevoir, conserver et envoyer des bitcoins.</td>
+          </tr>
+          <tr>
+            <td>Clé privée</td>
+            <td>Code secret permettant d’accéder aux bitcoins.</td>
+          </tr>
+          <tr>
+            <td>Adresse Bitcoin</td>
+            <td>Adresse utilisée pour recevoir des bitcoins.</td>
+          </tr>
+          <tr>
+            <td>Minage</td>
+            <td>Processus de validation des transactions et de création de nouveaux blocs.</td>
+          </tr>
+          <tr>
+            <td>Halving</td>
+            <td>Événement qui réduit la création de nouveaux bitcoins.</td>
+          </tr>
+          <tr>
+            <td>Volatilité</td>
+            <td>Variation rapide et parfois brutale du prix.</td>
+          </tr>
+          <tr>
+            <td>Stop loss</td>
+            <td>Ordre destiné à limiter une perte.</td>
+          </tr>
+          <tr>
+            <td>Take profit</td>
+            <td>Ordre destiné à prendre un gain à un niveau choisi.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2 class="section-title">Conclusion pédagogique</h2>
+
+      <p>
+        Le Bitcoin est une innovation importante, mais il ne doit pas être abordé avec naïveté.
+        Il faut comprendre son fonctionnement, ses limites, ses risques et ses usages avant d’y investir.
+      </p>
+
+      <div class="success-box">
+        La bonne règle : apprendre d’abord, investir ensuite, et toujours gérer le risque.
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENU EXISTANT CONSERVÉ -->
+
   <section>
     <div class="card btc-wrapper">
       <h2 class="section-title">Cours du Bitcoin en direct</h2>
@@ -486,6 +882,10 @@
       </div>
 
       <div id="btc-chart"></div>
+
+      <div class="info-box">
+        Le prix du Bitcoin varie en permanence. Le graphique donne une indication rapide, mais il ne suffit pas à lui seul pour prendre une décision d’achat ou de vente.
+      </div>
     </div>
   </section>
 
@@ -561,8 +961,6 @@
     </div>
   </section>
 
-  <br>
-
   <section>
     <h2 class="section-title">Les trois piliers du site</h2>
 
@@ -616,6 +1014,7 @@
       </div>
     </div>
   </section>
+
 </main>
 
 <section class="tradingview-link-section">
@@ -810,5 +1209,1260 @@
   connecterPrixKraken();
   connecterGraphiqueBinance();
 </script>
+
+</body>
+</html>DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cryptomanie – Bitcoin, Satoshi, ASIC et Minage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+      background: #0f1115;
+      color: #f4f4f4;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 12, 16, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f7931a;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #d9d9d9;
+      margin-top: 4px;
+    }
+
+    .nav-main {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links li a {
+      display: block;
+      text-align: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #1a1d24;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.95rem;
+    }
+
+    .nav-links li a.active,
+    .nav-links li a:hover {
+      background: #f7931a;
+      color: #111;
+      font-weight: 700;
+    }
+
+    .nav-extra {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-lang {
+      font-size: 0.92rem;
+      color: #ddd;
+    }
+
+    .theme-toggle {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #2b2f38;
+      color: #fff;
+      cursor: pointer;
+      width: 100%;
+      max-width: 240px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 28px;
+    }
+
+    section {
+      margin-bottom: 26px;
+      scroll-margin-top: 150px;
+    }
+
+    .card {
+      background: #171a21;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: 1.45rem;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+
+    .section-subtitle {
+      margin: 0 0 18px;
+      color: #cfcfcf;
+      font-size: 0.98rem;
+    }
+
+    .btc-wrapper {
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    .btc-prices {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .btc-price-box {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: #101319;
+    }
+
+    .btc-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+
+    .btc-value {
+      font-size: 1.08rem;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .btc-infos {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.94rem;
+      color: #ddd;
+    }
+
+    #btc-chart {
+      width: 100%;
+      height: 240px;
+      background: #000000;
+      border: 1px solid #333;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hero-text,
+    .hero-illustration {
+      min-width: 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(247, 147, 26, 0.12);
+      border: 1px solid rgba(247, 147, 26, 0.25);
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .hero-badge span {
+      color: #cfcfcf;
+      font-size: 0.9rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 1.9rem;
+      line-height: 1.15;
+    }
+
+    .hero h1 span {
+      color: #f7931a;
+    }
+
+    .hero p {
+      margin: 0 0 12px;
+      color: #e6e6e6;
+      font-size: 1rem;
+    }
+
+    .hero-highlight {
+      padding: 10px 12px;
+      border-left: 4px solid #f7931a;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .card-image {
+      margin: -16px -16px 14px;
+    }
+
+    .card-image img {
+      border-radius: 16px 16px 0 0;
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+      color: #f7b955;
+    }
+
+    .card p {
+      margin-top: 0;
+      color: #dddddd;
+    }
+
+    .card ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+      color: #dddddd;
+    }
+
+    .card li {
+      margin-bottom: 8px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(247, 147, 26, 0.12);
+      border: 1px solid rgba(247, 147, 26, 0.22);
+      color: #ffd7a4;
+      font-size: 0.85rem;
+    }
+
+    .info-box {
+      background: rgba(247, 147, 26, 0.1);
+      border-left: 5px solid #f7931a;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      color: #f5f5f5;
+    }
+
+    .warning-box {
+      background: rgba(220, 38, 38, 0.12);
+      border-left: 5px solid #ef4444;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      color: #f5f5f5;
+    }
+
+    .success-box {
+      background: rgba(34, 197, 94, 0.1);
+      border-left: 5px solid #22c55e;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      color: #f5f5f5;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      background: #11141b;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f7931a;
+      color: #111;
+      font-weight: 700;
+    }
+
+    td {
+      color: #e0e0e0;
+    }
+
+    .pedago-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .pedago-item {
+      padding: 14px;
+      background: #11141b;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pedago-item strong {
+      color: #f7931a;
+    }
+
+    .tradingview-link-section {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 24px 14px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .tradingview-link-section h2 {
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .tradingview-link-section p {
+      color: #d8d8d8;
+    }
+
+    .tradingview-link-section a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #111;
+      background: #f7931a;
+      padding: 12px 16px;
+      border-radius: 10px;
+    }
+
+    footer {
+      padding: 20px 14px 30px;
+      text-align: center;
+      color: #bdbdbd;
+      font-size: 0.92rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-author {
+      display: block;
+      margin-top: 8px;
+      color: #e0e0e0;
+    }
+
+    @media (min-width: 680px) {
+      .navbar {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .nav-extra {
+        flex-direction: row;
+      }
+
+      .theme-toggle {
+        width: auto;
+      }
+
+      .btc-prices {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .btc-infos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .pedago-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 960px) {
+      .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        text-align: left;
+      }
+
+      .nav-main {
+        flex: 1;
+        margin-left: 24px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      #btc-chart {
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .section-title {
+        font-size: 1.28rem;
+      }
+
+      .hero h1 {
+        font-size: 1.65rem;
+      }
+
+      .btc-value {
+        font-size: 1rem;
+      }
+
+      #btc-chart {
+        height: 210px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="logo">CRYPTO<span>MANIE - Hocine Korichi</span></div>
+
+    <div class="nav-main">
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="satoshi.html">Satoshi & Bitcoin</a></li>
+        <li><a href="mining.html">ASIC & Minage</a></li>
+        <li><a href="guide.html">Guide & Ressources</a></li>
+        <li><a href="bitcoin-conseiller.html">Bitcoin Conseiller</a></li>
+        <li><a href="or-conseiller.html">Or Conseiller</a></li>
+        <li><a href="trading-multi-actifs.html">Trading multi-actifs</a></li>
+        <li><a href="#definition">Comprendre</a></li>
+        <li><a href="#risques">Risques</a></li>
+        <li><a href="#lexique">Lexique</a></li>
+      </ul>
+
+      <div class="nav-extra">
+        <div class="nav-lang">FR | <a href="index-en.html">EN</a></div>
+        <button id="theme-toggle" class="theme-toggle" type="button">☀️ Mode clair</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section>
+    <div class="card btc-wrapper">
+      <h2 class="section-title">Cours du Bitcoin en direct</h2>
+      <p class="section-subtitle">Prix en temps réel et graphique rapide.</p>
+
+      <div class="btc-prices">
+        <div class="btc-price-box">
+          <div class="btc-label">Dollar US</div>
+          <div id="btc-usd" class="btc-value">BTC/USD : chargement...</div>
+        </div>
+
+        <div class="btc-price-box">
+          <div class="btc-label">Dollar canadien</div>
+          <div id="btc-cad" class="btc-value">BTC/CAD : chargement...</div>
+        </div>
+
+        <div class="btc-price-box">
+          <div class="btc-label">Euro</div>
+          <div id="btc-eur" class="btc-value">BTC/EUR : chargement...</div>
+        </div>
+      </div>
+
+      <div class="btc-infos">
+        <div id="btc-update">Dernière mise à jour : --</div>
+        <div id="btc-status">Connexion prix...</div>
+        <div id="chart-status">Connexion graphique...</div>
+      </div>
+
+      <div id="btc-chart"></div>
+
+      <div class="info-box">
+        Le prix du Bitcoin varie en permanence. Le graphique donne une indication rapide, mais il ne suffit pas à lui seul pour prendre une décision d’achat ou de vente.
+      </div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">
+        💡 Pédagogie crypto
+        <span>Bitcoin, minage, Satoshi – sans bullshit.</span>
+      </div>
+
+      <h1>Comprendre la <span>cryptomanie</span> avant de jouer au trader</h1>
+
+      <p>
+        Ici, on décortique la techno, pas les rêves de Lambo. Bitcoin, Satoshi,
+        blockchain, ASIC et fermes de minage : tu comprends <em>comment ça marche</em>
+        et <em>pourquoi ça marche</em>, sans jargon inutile.
+      </p>
+
+      <p class="hero-highlight">
+        Le Bitcoin peut fasciner par ses hausses rapides, mais il ne faut jamais confondre enthousiasme et compréhension.
+        Ligne de conduite : <strong>comprendre</strong> avant de spéculer.
+        Avant d’acheter, il faut savoir ce que l’on fait, connaître les risques, et ne jamais miser un argent essentiel.
+      </p>
+    </div>
+
+    <div class="hero-illustration">
+      <img src="img/hero-crypto.jpg" alt="Réseau Bitcoin et cryptomonnaies" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+    </div>
+  </section>
+
+  <section id="definition">
+    <div class="card">
+      <h2 class="section-title">Bitcoin : définition simple</h2>
+      <p class="section-subtitle">
+        Le Bitcoin est une monnaie numérique décentralisée créée en 2009. Elle fonctionne sans banque centrale, sans gouvernement unique et sans intermédiaire obligatoire.
+      </p>
+
+      <p>
+        Contrairement aux monnaies classiques, le Bitcoin n’existe pas sous forme de billets ou de pièces. Il existe uniquement sous forme numérique, dans un réseau mondial d’ordinateurs qui vérifient et enregistrent les transactions.
+      </p>
+
+      <div class="info-box">
+        Idée simple : le Bitcoin permet d’échanger de la valeur directement entre deux personnes, avec un système fondé sur le code informatique, la cryptographie et la blockchain.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">La cryptomanie, c’est quoi au juste ?</h2>
+    <p class="section-subtitle">
+      Explosion des prix, buzz médiatique, promesses de richesse express…
+      mais sous la surface, il y a surtout une révolution technologique.
+    </p>
+
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="card-image">
+          <img src="img/bitcoin-blockchain.jpg" alt="Monnaie numérique et blockchain" />
+        </div>
+        <h3>💰 Cryptomonnaie</h3>
+        <p>
+          Monnaie 100 % numérique, sécurisée par la cryptographie et gérée par
+          un réseau distribué. Pas de guichet, pas de banque centrale, juste du
+          code et des nœuds partout sur la planète.
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-image">
+          <img src="img/satoshi1.jfif" alt="Représentation de Satoshi Nakamoto" />
+        </div>
+        <h3>⛓️ Blockchain</h3>
+        <p>
+          Un grand livre de comptes partagé et immuable. Chaque bloc contient
+          des transactions, lié au précédent par un hash. Modifier le passé
+          devient pratiquement impossible.
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-image">
+          <img src="img/bitcoin-blockchain.jpg" alt="Sécurité des portefeuilles crypto" />
+        </div>
+        <h3>🚀 Spéculation & engouement</h3>
+        <p>
+          FOMO, bull run, krach : les cycles se répètent. Comprendre la
+          mécanique évite de se faire balayer par l’euphorie ou la panique.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="fonctionnement">
+    <h2 class="section-title">Comment fonctionne le Bitcoin ?</h2>
+    <p class="section-subtitle">
+      Le Bitcoin repose sur trois idées essentielles : une monnaie numérique, un réseau décentralisé et une quantité limitée.
+    </p>
+
+    <div class="grid grid-3">
+      <article class="card">
+        <h3>1. Une monnaie numérique</h3>
+        <p>
+          Le Bitcoin ne se conserve pas dans un portefeuille physique. Il se conserve dans un portefeuille numérique, appelé aussi wallet.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>2. Un réseau décentralisé</h3>
+        <p>
+          Le réseau Bitcoin n’est pas contrôlé par une seule entreprise. Des milliers d’ordinateurs participent à sa vérification.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>3. Une offre limitée</h3>
+        <p>
+          Le nombre total de bitcoins est limité à 21 millions. Cette rareté programmée est un élément central de son fonctionnement.
+        </p>
+      </article>
+    </div>
+
+    <div class="success-box">
+      Le Bitcoin est souvent présenté comme une réserve numérique de valeur, mais cette idée reste discutée. Sa valeur dépend aussi de la confiance, de l’adoption, de la liquidité et du contexte économique.
+    </div>
+  </section>
+
+  <section id="blockchain">
+    <div class="card">
+      <h2 class="section-title">La blockchain expliquée simplement</h2>
+
+      <p>
+        La blockchain est un registre public. Elle conserve l’historique des transactions Bitcoin. Chaque transaction validée est regroupée dans un bloc. Les blocs sont ensuite reliés les uns aux autres.
+      </p>
+
+      <div class="pedago-list">
+        <div class="pedago-item">
+          <strong>Transparence :</strong> les transactions sont visibles dans la blockchain.
+        </div>
+
+        <div class="pedago-item">
+          <strong>Immutabilité :</strong> une fois validées, les données deviennent très difficiles à modifier.
+        </div>
+
+        <div class="pedago-item">
+          <strong>Décentralisation :</strong> le registre ne dépend pas d’un seul serveur central.
+        </div>
+
+        <div class="pedago-item">
+          <strong>Confiance technique :</strong> la confiance repose sur le protocole, non sur une promesse verbale.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Les trois piliers du site</h2>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-image">
+          <img src="img/satoshi2.jfif" alt="Portrait conceptuel de Satoshi Nakamoto" />
+        </div>
+        <h3>1. Satoshi Nakamoto</h3>
+        <p>
+          Le fantôme à l’origine de Bitcoin. Un pseudo, un whitepaper, du code,
+          puis le silence. Le personnage disparaît, mais l’architecture reste.
+        </p>
+        <div class="tags">
+          <span class="tag">Livre blanc</span>
+          <span class="tag">Cypherpunks</span>
+          <span class="tag">2008</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-image">
+          <img src="img/asic-miner.jpg" alt="Machine ASIC pour le minage de Bitcoin" />
+        </div>
+        <h3>2. ASIC Mining & fermes</h3>
+        <p>
+          Des puces taillées sur mesure et des hangars bourrés de machines qui
+          transforment l’électricité en hashrate et sécurisent la blockchain.
+        </p>
+        <div class="tags">
+          <span class="tag">Hashrate</span>
+          <span class="tag">Proof-of-Work</span>
+          <span class="tag">Énergie</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-image">
+          <img src="img/bitcoin-blockchain.jpg" alt="Protection et sécurité des cryptos" />
+        </div>
+        <h3>3. Comprendre les risques</h3>
+        <p>
+          Volatilité extrême, arnaques sophistiquées, faux projets “révolutionnaires” :
+          tout ce qu’il faut connaître avant de mettre 1€ dans un token.
+        </p>
+        <div class="tags">
+          <span class="tag">Sécurité</span>
+          <span class="tag">Wallet</span>
+          <span class="tag">DYOR</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="avantages">
+    <h2 class="section-title">Les avantages possibles du Bitcoin</h2>
+    <p class="section-subtitle">
+      Le Bitcoin n’est pas magique. Mais il possède des caractéristiques qui expliquent son importance.
+    </p>
+
+    <div class="grid grid-2">
+      <article class="card">
+        <h3>Décentralisation</h3>
+        <p>
+          Le réseau n’est pas dirigé par une banque centrale ou un gouvernement unique. Cette architecture réduit la dépendance à une autorité centrale.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Rareté programmée</h3>
+        <p>
+          L’offre maximale est limitée à 21 millions de bitcoins. Cette limite est intégrée au protocole.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Transferts internationaux</h3>
+        <p>
+          Le Bitcoin permet d’envoyer de la valeur d’un pays à un autre sans passer nécessairement par un système bancaire classique.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Autonomie financière</h3>
+        <p>
+          Celui qui possède ses clés privées contrôle directement ses bitcoins. Mais cette autonomie implique aussi une grande responsabilité.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="risques">
+    <div class="card">
+      <h2 class="section-title">Les risques à connaître avant d’investir</h2>
+      <p>
+        Le Bitcoin peut fortement monter, mais il peut aussi fortement baisser. Il ne faut jamais investir de l’argent nécessaire pour payer le logement, la nourriture, les soins ou les obligations essentielles.
+      </p>
+
+      <div class="warning-box">
+        Règle de prudence : ne jamais confondre investissement, spéculation et jeu de hasard. Le Bitcoin exige de la méthode, du sang-froid et une gestion stricte du risque.
+      </div>
+
+      <ul>
+        <li><strong>Volatilité :</strong> le prix peut varier brutalement en peu de temps.</li>
+        <li><strong>Perte de clé privée :</strong> si la clé est perdue, les bitcoins peuvent devenir définitivement inaccessibles.</li>
+        <li><strong>Arnaques :</strong> faux sites, faux conseillers, faux rendements garantis.</li>
+        <li><strong>Réglementation :</strong> les lois peuvent changer selon les pays.</li>
+        <li><strong>Erreur humaine :</strong> une transaction envoyée à la mauvaise adresse est souvent irréversible.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="trading">
+    <h2 class="section-title">Bitcoin et trading</h2>
+    <p class="section-subtitle">
+      Le trading consiste à acheter et vendre du Bitcoin pour profiter des variations de prix. C’est une activité risquée qui demande de la discipline.
+    </p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Indicateur</th>
+            <th>Utilité</th>
+            <th>Limite</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>RSI</td>
+            <td>Évalue si le marché semble suracheté ou survendu.</td>
+            <td>Peut donner de faux signaux dans une forte tendance.</td>
+          </tr>
+          <tr>
+            <td>MACD</td>
+            <td>Aide à repérer les changements de tendance.</td>
+            <td>Réagit parfois avec retard.</td>
+          </tr>
+          <tr>
+            <td>Moyennes mobiles</td>
+            <td>Permettent de suivre la tendance générale.</td>
+            <td>Moins fiables dans un marché sans direction claire.</td>
+          </tr>
+          <tr>
+            <td>Volume</td>
+            <td>Mesure la force d’un mouvement.</td>
+            <td>Doit être comparé au contexte global.</td>
+          </tr>
+          <tr>
+            <td>Supports et résistances</td>
+            <td>Indiquent des zones où le prix peut réagir.</td>
+            <td>Une cassure peut être réelle ou fausse.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box">
+      Un indicateur ne donne jamais une certitude. Il donne seulement une probabilité. Le marché peut toujours faire le contraire de ce qui semble logique.
+    </div>
+  </section>
+
+  <section id="securite">
+    <h2 class="section-title">Sécuriser ses bitcoins</h2>
+    <p class="section-subtitle">
+      Dans l’univers du Bitcoin, la sécurité est personnelle. Une mauvaise manipulation peut coûter cher.
+    </p>
+
+    <div class="grid grid-2">
+      <article class="card">
+        <h3>Bonnes pratiques</h3>
+        <ul>
+          <li>Utiliser un mot de passe fort et unique.</li>
+          <li>Activer la double authentification.</li>
+          <li>Vérifier l’adresse avant chaque transaction.</li>
+          <li>Utiliser un portefeuille matériel pour les montants importants.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Erreurs graves à éviter</h3>
+        <ul>
+          <li>Partager sa phrase de récupération.</li>
+          <li>Cliquer sur des liens suspects.</li>
+          <li>Confier ses fonds à une plateforme inconnue.</li>
+          <li>Croire aux rendements garantis.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="warning-box">
+      Aucune plateforme sérieuse ne demandera ta phrase de récupération. Si quelqu’un la demande, il s’agit probablement d’une tentative de vol.
+    </div>
+  </section>
+
+  <section id="lexique">
+    <div class="card">
+      <h2 class="section-title">Lexique simple du Bitcoin</h2>
+      <p class="section-subtitle">
+        Quelques termes utiles pour comprendre les discussions autour du Bitcoin et du trading.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Terme</th>
+              <th>Définition simple</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BTC</td>
+              <td>Symbole du Bitcoin.</td>
+            </tr>
+            <tr>
+              <td>Blockchain</td>
+              <td>Registre numérique public qui conserve les transactions.</td>
+            </tr>
+            <tr>
+              <td>Wallet</td>
+              <td>Portefeuille numérique permettant de recevoir, conserver et envoyer des bitcoins.</td>
+            </tr>
+            <tr>
+              <td>Clé privée</td>
+              <td>Code secret permettant de contrôler les bitcoins associés à une adresse.</td>
+            </tr>
+            <tr>
+              <td>Adresse Bitcoin</td>
+              <td>Adresse utilisée pour recevoir des bitcoins.</td>
+            </tr>
+            <tr>
+              <td>Minage</td>
+              <td>Processus de validation des transactions et de sécurisation du réseau.</td>
+            </tr>
+            <tr>
+              <td>ASIC</td>
+              <td>Machine spécialisée utilisée pour miner du Bitcoin.</td>
+            </tr>
+            <tr>
+              <td>Hashrate</td>
+              <td>Puissance de calcul utilisée pour sécuriser le réseau Bitcoin.</td>
+            </tr>
+            <tr>
+              <td>Halving</td>
+              <td>Événement qui réduit de moitié la récompense versée aux mineurs.</td>
+            </tr>
+            <tr>
+              <td>Volatilité</td>
+              <td>Variation rapide et parfois brutale du prix.</td>
+            </tr>
+            <tr>
+              <td>RSI</td>
+              <td>Indicateur technique qui mesure la force relative d’un mouvement de prix.</td>
+            </tr>
+            <tr>
+              <td>MACD</td>
+              <td>Indicateur utilisé pour repérer des changements de tendance.</td>
+            </tr>
+            <tr>
+              <td>Stop loss</td>
+              <td>Ordre destiné à limiter une perte.</td>
+            </tr>
+            <tr>
+              <td>Take profit</td>
+              <td>Ordre destiné à prendre un gain à un niveau choisi.</td>
+            </tr>
+            <tr>
+              <td>FOMO</td>
+              <td>Peur de rater une occasion, souvent responsable d’achats impulsifs.</td>
+            </tr>
+            <tr>
+              <td>DYOR</td>
+              <td>Faire ses propres recherches avant de décider.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="conclusion">
+    <div class="card">
+      <h2 class="section-title">Conclusion : apprendre avant de spéculer</h2>
+      <p>
+        Le Bitcoin est une innovation importante, mais il ne doit pas être abordé avec naïveté. Il faut comprendre son fonctionnement, ses limites, ses risques et ses usages avant d’y investir.
+      </p>
+
+      <div class="success-box">
+        La bonne règle : apprendre d’abord, investir ensuite, et toujours gérer le risque.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="tradingview-link-section">
+  <h2>Suivre le Bitcoin en direct</h2>
+  <p>
+    Consultez ce graphique interactif sur TradingView pour suivre l'évolution du Bitcoin :
+  </p>
+  <p>
+    <a href="https://fr.tradingview.com/chart/C4l4AIbS/" target="_blank" rel="noopener noreferrer">
+      Ouvrir le graphique TradingView
+    </a>
+  </p>
+</section>
+
+<footer>
+  © 2025 – Site pédagogique sur la cryptomanie, Bitcoin, Satoshi Nakamoto et le minage.
+  <span class="footer-author">
+    Hocine KORICHI – ingénieur physicien et informaticien
+  </span>
+</footer>
+
+<script>
+  let socketPrix = null;
+  let socketChart = null;
+  let chart = null;
+  let lineSeries = null;
+
+  function afficherHeureMaj() {
+    document.getElementById("btc-update").textContent =
+      "Dernière mise à jour : " + new Date().toLocaleTimeString("fr-CA");
+  }
+
+  function formatPrix(valeur, locale, devise) {
+    return Number(valeur).toLocaleString(locale, {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4
+    }) + devise;
+  }
+
+  function connecterPrixKraken() {
+    document.getElementById("btc-status").textContent = "Connexion aux prix...";
+
+    socketPrix = new WebSocket("wss://ws.kraken.com");
+
+    socketPrix.onopen = function () {
+      document.getElementById("btc-status").textContent = "Prix connectés";
+
+      socketPrix.send(JSON.stringify({
+        event: "subscribe",
+        pair: ["XBT/USD", "XBT/CAD", "XBT/EUR"],
+        subscription: { name: "ticker" }
+      }));
+    };
+
+    socketPrix.onmessage = function (event) {
+      const message = JSON.parse(event.data);
+
+      if (!Array.isArray(message)) {
+        return;
+      }
+
+      const donnees = message[1];
+      const paire = message[3];
+
+      if (!donnees || !paire || !donnees.c || !donnees.c[0]) {
+        return;
+      }
+
+      const prix = Number(donnees.c[0]);
+
+      if (paire === "XBT/USD") {
+        document.getElementById("btc-usd").textContent =
+          "BTC/USD : " + formatPrix(prix, "en-US", " $ US");
+      }
+
+      if (paire === "XBT/CAD") {
+        document.getElementById("btc-cad").textContent =
+          "BTC/CAD : " + formatPrix(prix, "en-CA", " $ CA");
+      }
+
+      if (paire === "XBT/EUR") {
+        document.getElementById("btc-eur").textContent =
+          "BTC/EUR : " + formatPrix(prix, "fr-FR", " €");
+      }
+
+      afficherHeureMaj();
+    };
+
+    socketPrix.onerror = function () {
+      document.getElementById("btc-status").textContent = "Erreur de connexion des prix";
+    };
+
+    socketPrix.onclose = function () {
+      document.getElementById("btc-status").textContent = "Prix déconnectés, reconnexion...";
+      setTimeout(connecterPrixKraken, 3000);
+    };
+  }
+
+  function initialiserGraphique() {
+    const conteneur = document.getElementById("btc-chart");
+
+    chart = LightweightCharts.createChart(conteneur, {
+      width: conteneur.clientWidth,
+      height: conteneur.clientHeight,
+      layout: {
+        background: { color: "#000000" },
+        textColor: "#ffffff"
+      },
+      grid: {
+        vertLines: { color: "#222222" },
+        horzLines: { color: "#222222" }
+      },
+      timeScale: {
+        timeVisible: true,
+        secondsVisible: true,
+        borderColor: "#444444",
+        rightOffset: 5,
+        barSpacing: 2
+      },
+      rightPriceScale: {
+        borderColor: "#444444"
+      },
+      localization: {
+        locale: "fr-CA"
+      }
+    });
+
+    lineSeries = chart.addSeries(LightweightCharts.LineSeries, {
+      color: "#f7931a",
+      lineWidth: 2
+    });
+
+    chart.timeScale().fitContent();
+
+    window.addEventListener("resize", function () {
+      chart.applyOptions({
+        width: conteneur.clientWidth,
+        height: conteneur.clientHeight
+      });
+      chart.timeScale().fitContent();
+    });
+  }
+
+  function secondeUnix(timestampMs) {
+    return Math.floor(timestampMs / 1000);
+  }
+
+  function mettreAJourGraphique(prix, timestampMs) {
+    const temps = secondeUnix(timestampMs);
+
+    lineSeries.update({
+      time: temps,
+      value: prix
+    });
+  }
+
+  function connecterGraphiqueBinance() {
+    document.getElementById("chart-status").textContent = "Connexion au graphique...";
+
+    socketChart = new WebSocket("wss://data-stream.binance.vision/ws/btcusdt@trade");
+
+    socketChart.onopen = function () {
+      document.getElementById("chart-status").textContent =
+        "Graphique connecté : courbe rapide BTC/USDT";
+    };
+
+    socketChart.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+
+      if (!data.p || !data.T) {
+        return;
+      }
+
+      const prix = Number(data.p);
+      const timestampMs = data.T;
+
+      mettreAJourGraphique(prix, timestampMs);
+    };
+
+    socketChart.onerror = function () {
+      document.getElementById("chart-status").textContent = "Erreur de connexion du graphique";
+    };
+
+    socketChart.onclose = function () {
+      document.getElementById("chart-status").textContent =
+        "Graphique déconnecté, reconnexion...";
+      setTimeout(connecterGraphiqueBinance, 3000);
+    };
+  }
+
+  initialiserGraphique();
+  connecterPrixKraken();
+  connecterGraphiqueBinance();
+</script>
+
 </body>
 </html>
